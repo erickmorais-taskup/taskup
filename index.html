@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R&E Jobs</title>
+    <meta name="description" content="Encontre funcionários para trabalhar para você! A melhor plataforma de BH!">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>R&F Jobs</h1>
+        <h2>Encontre profissionais qualificados para seus serviços do dia a dia!</h2>
+    </header>
+    <section class="container">
+        <section class="services">
+            <h3>Selecione o tipo de serviço</h3>
+            <div class="services-grid">
+                <div class="service-card" onclick="mostrarServico('faxina')">Faxina</div>
+                <div class="service-card" onclick="mostrarServico('chaveiro')">Chaveiro</div>
+                <div class="service-card" onclick="mostrarServico('mecanico')">Mecânico</div>                
+                <div class="service-card" onclick="mostrarServico('eletricista')">Eletricista</div>
+            </div>
+        </section>
+    </section>
+    
+    <section id="faxina" class="professionals hidden">
+        <h4>Profissionais disponíveis</h4>
+        <div class="jobs">
+            <div class="job-card">
+                <h5>Maria Morais</h5>
+                <p class="p-card">Experiência: +10 anos<br>
+                Valor diária: R$190,00<br>
+                Bairro: Paraíso</p>
+                <button class="job-card-button" onclick="faxinaWhatsApp('Maria Morais', 'Paraíso')">Entrar em contato pelo WhatsApp</button>
+            </div>
+            <div class="job-card">
+                <h5>Carla Dias</h5>
+                <p class="p-card">Experiência: não registrado<br>
+                Valor diária: R$150,00<br>
+                Bairro: Santa Efigênia</p>
+                <button class="job-card-button">Entrar em contato pelo WhatsApp</button>
+            </div>
+    </section>
+    
+    <section id="chaveiro" class="professionals hidden">
+        <h4>Profissionais disponíveis</h4>
+        <div class="jobs">
+            <div class="job-card">
+                <h5>Cleber Santos</h5>
+                <p>Experiência: +15 anos<br>
+                Valor diária: R$140,00<br>
+                Bairro: Taquaril</p>
+                <button class="job-card-button">Entrar em contato pelo WhatsApp</button>
+            </div>
+            <div class="job-card">
+                <h5>Vladimir Oliveira</h5>
+                <p>Experiência: 6 anos<br>
+                Valor diária: R$120,00<br>
+                Bairro: Casa Branca</p>
+                <button class="job-card-button">Entrar em contato pelo WhatsApp</button>
+        </div>
+    </section>
+    
+    <section id="mecanico" class="professionals hidden">
+        <h4>Profissionais disponíveis</h4>
+        <div class="jobs">
+            <div class="job-card">
+                <h5>Antônio Braga</h5>
+                <p>Experiência: +25 anos<br>
+                Valor diária: R$210,00<br>
+                Bairro: Funcionários</p>
+                <button class="job-card-button">Entrar em contato pelo WhatsApp</button>
+            </div>
+            <div class="job-card">
+                <h5>Roger Silva</h5>
+                <p>Experiência: 8 anos<br>
+                Valor diária: R$150,00<br>
+                Bairro: Castelo</p>
+                <button class="job-card-button">Entrar em contato pelo WhatsApp</button>
+        </div>
+    </section>
+    
+    <section id="eletricista" class="professionals hidden">
+        <h4>Profissionais disponíveis</h4>
+        <div class="jobs">
+            <div class="job-card">
+                <h5>Eduardo Corrêa</h5>
+                <p>Experiência: +9 anos<br>
+                Valor diária: R$130,00<br>
+                Bairro: Venda Nova</p>
+                <button class="job-card-button">Entrar em contato pelo WhatsApp</button>
+            </div>
+            <div class="job-card">
+                <h5>Enilza Souza</h5>
+                <p>Experiência: +4 anos<br>
+                Valor diária: R$110,00<br>
+                Bairro: Centro</p>
+                <button class="job-card-button">Entrar em contato pelo WhatsApp</button>
+        </div>
+    </section>
+    
+    <footer>
+        <p>© R&E Jobs — Conectando você a profissionais locais</p>
+    </footer>
+    
+    <script>
+        function mostrarServico(id) {
+        document.querySelectorAll(".professionals").forEach(sec => sec.classList.add("hidden"));
+        document.getElementById(id).classList.remove("hidden"); 
+        window.scrollTo({ top: document.getElementById(id).offsetTop - 20, behavior: "smooth"});
+}
+    </script>
+    
+    <script>
+function faxinaWhatsApp(nome, bairro) {
+    const numero = "5531992111470";
+
+    const mensagem = `Olá, procuro uma faxineira para trabalhar para mim e me interessei pela ${nome}, do bairro ${bairro}, disponível no site. Gostaria de solicitar o serviço.`;
+
+    window.open(
+        `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`,
+        "_blank"
+    );
+}
+    </script>
+
+</body>
+</html>
