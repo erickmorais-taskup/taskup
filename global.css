@@ -58,6 +58,54 @@ header p{
     padding: 10px;
 }
 
+
+.jobs{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+h5{
+    font-size: 12pt;
+}
+.job-card{
+    border-radius: 6px;
+    background-color: white;
+    padding: 10px;
+    margin: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1)
+}
+
+.p-card{
+    font-size: 12pt;
+}
+
+.job-card-button{
+    border-radius: 10px;
+    padding: 3px;
+    border: none;
+    background-color: #25D366;
+    margin-top: 4px;
+    font-size: 12pt;
+    text-decoration: none;
+    color: black;
+}
+
+.job-card-button:hover{
+    background-color: #2a5f08;
+    transition: .5s;
+}
+
+
+
+.service-card:hover{
+    background-color: #0a257b;
+    transition: .5s;
+}
+
+
+
+
+
 /* FOOTER */
 
 footer{
