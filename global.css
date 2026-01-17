@@ -58,6 +58,31 @@ header p{
     padding: 10px;
 }
 
+.services{
+    margin: 13px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 15px;
+    display: grid;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1)
+}
+
+.services-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    
+}
+
+.service-card{
+    background-color: #1562ff;
+    border-radius: 10px;
+    color: white;
+    margin: 5px;
+    padding: 5px;
+}
 
 .jobs{
     display: grid;
