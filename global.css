@@ -1,0 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* SPANS */
+
+.up{
+    color: #00BFFF;
+}
+
+/*----------*/
+
+body{
+    background-color: #d5dfff;
+    height: 100vh;
+}
+
+/* CABEÇALHO */
+
+header{
+    background-color: #000000;
+    padding: 30px;
+}
+
+header h1{
+    color: #ffffff;
+}
+
+header p{
+    color: #ffffff;
+}
+
+/* BOTAO SERVICOS */
+
+.button-serv{
+    margin: 30px;
+    text-align: center;
+}
+
+.button-serv a{
+    border-radius: 8px;
+    background-color: #00BFFF;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 5px;
+    font-size: 15pt;
+}
+
+/* SOBRE - INDEX */
+
+.about{
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin: 15px;
+    padding: 10px;
+}
+
+/* FOOTER */
+
+footer{
+    text-align: center;
+    margin-top: 30px;
+}
