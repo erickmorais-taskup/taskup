@@ -74,17 +74,17 @@ function contatoWhats(nomeFreela, bairroFreela) {
 
     if (usuario.tipo === "empresa") {
         dadosContratante = `
-Empresa: ${nomeContratante}
-CNPJ: ${usuario.cnpj}
-Email: ${usuario.email}
-Telefone: ${usuario.telefone}
+• Empresa: ${nomeContratante}
+• CNPJ: ${usuario.cnpj}
+• Email: ${usuario.email}
+• Telefone: ${usuario.telefone}
         `;
     } else {
         dadosContratante = `
-Nome: localStorage.getItem("usuarioLogado")
-CPF: ${usuario.cpf}
-Email: ${usuario.email}
-Telefone: ${usuario.telefone}
+• Nome: localStorage.getItem("usuarioLogado")
+• CPF: ${usuario.cpf}
+• Email: ${usuario.email}
+• Telefone: ${usuario.telefone}
         `;
     }
 
@@ -93,7 +93,7 @@ Telefone: ${usuario.telefone}
 📌 Profissional: ${nomeFreela}
 📍 Bairro: ${bairroFreela}
 
-📄 Dados do contratante:
+*Dados do contratante:*
 ${dadosContratante}`;
 
     window.open(
