@@ -164,11 +164,23 @@ async function logout() {
 }
 
 async function protegerPagina() {
+    // aguarda o supabase estar pronto
+    if (!supabase) {
+        setTimeout(protegerPagina, 50);
+        return;
+    }
+
     const { data, error } = await supabase.auth.getUser();
 
-    if (error || !data.user) {
-        window.location.href = "login.html";
+    if (error || !data || !data.user) {
+        // limpa cache visual
+        document.documentElement.style.display = "block";
+        window.location.replace("login.html");
+        return;
     }
+
+    // usuário válido → libera página
+    document.documentElement.style.display = "block";
 }
 
 async function contatoWhats(nomeFreela, bairroFreela, servico) {
