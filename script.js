@@ -105,7 +105,7 @@ function registrar() {
         }
     }
 
-    localStorage.setItem("usuario", JSON.stringify(usuario));
+    localStorage.setItem(document.getElementById("nome"), JSON.stringify(usuario));
     alert("Cadastro realizado com sucesso!");
     window.location.href = "login.html";
 }
