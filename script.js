@@ -42,3 +42,44 @@ function contatoWhats(numero, nome, bairro) {
         "_blank"
     );
                      }
+
+function registrar() {
+    const empresa = document.getElementById("empresa").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    if (!empresa || !email || !senha) {
+        alert("Preencha todos os campos");
+        return;
+    }
+
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    usuarios.push({ empresa, email, senha });
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+    alert("Cadastro realizado com sucesso!");
+    window.location.href = "login.html";
+}
+
+function login() {
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    const usuario = usuarios.find(
+        u => u.email === email && u.senha === senha
+    );
+
+    if (!usuario) {
+        alert("Email ou senha inválidos");
+        return;
+    }
+
+    localStorage.setItem("logado", "true");
+    localStorage.setItem("empresa", usuario.empresa);
+
+    window.location.href = "servicos.html";
+}
