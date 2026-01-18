@@ -2,138 +2,174 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* VARIÁVEIS */
+:root{
+    --azul-principal: #00BFFF;
+    --azul-escuro: #1562ff;
+    --fundo: #eef2ff;
+    --texto: #333;
 }
 
 /* SPANS */
-
 .up{
-    color: #00BFFF;
+    color: var(--azul-principal);
 }
 
-/*----------*/
-
+/* BODY */
 body{
-    background-color: #d5dfff;
-    height: 100vh;
+    background-color: var(--fundo);
+    min-height: 100vh;
+    color: var(--texto);
 }
 
-/* CABEÇALHO */
-
+/* HEADER */
 header{
-    background-color: #000000;
-    padding: 30px;
+    background: linear-gradient(135deg, #000000, #0a1a3a);
+    padding: 50px 20px;
+    text-align: center;
 }
 
 header h1{
     color: #ffffff;
+    font-size: 36px;
+    letter-spacing: 1px;
 }
 
 header p{
-    color: #ffffff;
+    color: #dcdcdc;
+    margin-top: 10px;
+    font-size: 16px;
 }
 
-/* BOTAO SERVICOS */
-
+/* BOTÃO PRINCIPAL */
 .button-serv{
-    margin: 30px;
+    margin: 40px 20px;
     text-align: center;
 }
 
 .button-serv a{
-    border-radius: 8px;
-    background-color: #00BFFF;
+    display: inline-block;
+    background-color: var(--azul-principal);
     color: #ffffff;
     text-decoration: none;
-    padding: 5px;
-    font-size: 15pt;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
 }
 
-/* SOBRE - INDEX */
+.button-serv a:hover{
+    background-color: #009acd;
+    transform: translateY(-2px);
+}
 
+/* SOBRE */
 .about{
     background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    margin: 15px;
-    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin: 20px;
+    padding: 25px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+.about h2{
+    margin-bottom: 15px;
+    color: var(--azul-escuro);
+}
+
+.about p{
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+/* SERVICES (SERVICOS.HTML) */
 .services{
-    margin: 13px;
-    padding: 15px;
+    margin: 20px;
+    padding: 25px;
     background-color: white;
     border-radius: 15px;
-    display: grid;
-    align-content: center;
-    align-items: center;
     text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .services-grid{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    
+    gap: 12px;
+    margin-top: 20px;
 }
 
 .service-card{
-    background-color: #1562ff;
-    border-radius: 10px;
+    background-color: var(--azul-escuro);
+    border-radius: 12px;
     color: white;
-    margin: 5px;
-    padding: 5px;
+    padding: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
 }
-
-.jobs{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-}
-
-h5{
-    font-size: 12pt;
-}
-.job-card{
-    border-radius: 6px;
-    background-color: white;
-    padding: 10px;
-    margin: 5px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1)
-}
-
-.p-card{
-    font-size: 12pt;
-}
-
-.job-card-button{
-    border-radius: 10px;
-    padding: 3px;
-    border: none;
-    background-color: #25D366;
-    margin-top: 4px;
-    font-size: 12pt;
-    text-decoration: none;
-    color: black;
-}
-
-.job-card-button:hover{
-    background-color: #2a5f08;
-    transition: .5s;
-}
-
-
 
 .service-card:hover{
     background-color: #0a257b;
-    transition: .5s;
+    transform: translateY(-3px);
 }
 
+/* JOBS */
+.jobs{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 15px;
+}
 
+.job-card{
+    border-radius: 10px;
+    background-color: white;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
+h5{
+    font-size: 14px;
+    margin-bottom: 6px;
+}
 
+.p-card{
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* BOTÃO WHATSAPP */
+.job-card-button{
+    width: 100%;
+    border-radius: 20px;
+    padding: 10px;
+    border: none;
+    background-color: #25D366;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.job-card-button:hover{
+    background-color: #1ebe5d;
+}
 
 /* FOOTER */
-
 footer{
     text-align: center;
-    margin-top: 30px;
+    padding: 25px 15px;
+    margin-top: 40px;
+    font-size: 13px;
+    color: #555;
 }
