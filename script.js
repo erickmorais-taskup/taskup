@@ -64,19 +64,40 @@ async function registrar() {
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
-    const { data, error } = await supabase.auth.signUp({
+    if (!tipo || !email || !senha) {
+        alert("Preencha todos os campos");
+        return;
+    }
+
+    const { error: signUpError } = await supabase.auth.signUp({
         email,
         password: senha
     });
 
-    if (error) {
-        alert(error.message);
+    if (signUpError) {
+        alert(signUpError.message);
         return;
     }
 
+    // 🔥 LOGIN IMEDIATO
+    const { error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password: senha
+    });
+
+    if (loginError) {
+        alert(loginError.message);
+        return;
+    }
+
+    const { data } = await supabase.auth.getUser();
     const userId = data.user.id;
 
-    let payload = { id: userId, tipo, email };
+    let payload = {
+        id: userId,
+        tipo,
+        email
+    };
 
     if (tipo === "empresa") {
         payload.empresa = document.getElementById("empresa").value;
@@ -97,8 +118,8 @@ async function registrar() {
         return;
     }
 
-    alert("Cadastro realizado!");
-    window.location.href = "login.html";
+    alert("Cadastro realizado com sucesso!");
+    window.location.href = "servicos.html";
 }
 
 async function login() {
