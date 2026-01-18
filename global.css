@@ -218,6 +218,18 @@ h5{
     line-height: 1.4;
 }
 
+.usuario-logado{
+    margin-top: 12px;
+    font-size: 14px;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.usuario-logado span{
+    font-weight: bold;
+    color: var(--azul-principal);
+}
+
 /* BOTÃO WHATSAPP */
 .job-card-button{
     width: 100%;
