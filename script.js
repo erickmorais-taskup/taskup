@@ -43,7 +43,7 @@ function mostrarServico(servico) {
                         Bairro: ${p.bairro}
                     </p>
                     <button class="job-card-button"
-                        onclick="contatoWhats('${p.whatsapp}', '${p.nome}', '${p.bairro}')">
+                        onclick="contatoWhats('${p.nome}', '${p.bairro}', '${servico}')">
                         WhatsApp
                     </button>
                 </div>
@@ -58,9 +58,30 @@ function mostrarServico(servico) {
 // ===============================
 // WHATSAPP
 // ===============================
-function contatoWhats(numero, nome, bairro) {
-    const msg = `Olá, me interessei pelo serviço de ${nome}, do bairro ${bairro}, disponível no site TaskUp.`;
-    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`, "_blank");
+function contatoWhats(nome, bairro, servico) {
+    // Dados da empresa logada
+    const empresaNome = localStorage.getItem("empresa_nome") || "Não informado";
+    const empresaCnpj = localStorage.getItem("empresa_cnpj") || "Não informado";
+    const empresaEmail = localStorage.getItem("empresa_email") || "Não informado";
+    const WHATSAPP_TASKUP = "+5531992111470"
+    const msg = `Olá! Sou da empresa ${empresaNome} e encontrei um profissional no site TaskUp.
+
+📌 Serviço: ${servico}
+👤 Profissional: ${nome}
+📍 Bairro: ${bairro}
+
+🏢 Dados da empresa:
+• Nome: ${empresaNome}
+• CNPJ: ${empresaCnpj}
+• E-mail: ${empresaEmail}
+
+Gostaria de mais informações.`;
+
+    window.open(
+        `https://wa.me/${WHATSAPP_TASKUP}?text=${encodeURIComponent(msg)}`,
+        "_blank"
+    );
+}
 }
 
 
