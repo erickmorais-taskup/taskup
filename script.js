@@ -82,7 +82,6 @@ Gostaria de mais informações.`;
         "_blank"
     );
 }
-}
 
 
 // ===============================
