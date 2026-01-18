@@ -157,6 +157,11 @@ header p{
 }
 
 /* SERVICES (SERVICOS.HTML) */
+
+h3{
+    text-align: center;
+}
+
 .services{
     margin: 20px;
     padding: 25px;
