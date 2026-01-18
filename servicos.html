@@ -41,7 +41,14 @@
     <p>© TaskUp Soluções 2026</p>
     <p>Belo Horizonte, Minas Gerais, Brasil</p>
 </footer>
-
+    
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+  const supabase = supabase.createClient(
+    "SUA_PROJECT_URL",
+    "SUA_ANON_KEY"
+  );
+</script>
 <script src="script.js">
     if (!localStorage.getItem("logado")) {
     window.location.href = "login.html";
