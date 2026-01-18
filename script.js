@@ -1,4 +1,3 @@
-
 let dados = {};
 
 fetch('freelancers.json')
@@ -42,4 +41,4 @@ function contatoWhats(numero, nome, bairro) {
         `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,
         "_blank"
     );
-}
+                     }
