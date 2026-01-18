@@ -1,3 +1,7 @@
+if (!localStorage.getItem("logado")) {
+    window.location.href = "login.html";
+}
+
 let dados = {};
 
 fetch('freelancers.json')
@@ -82,4 +86,10 @@ function login() {
     localStorage.setItem("empresa", usuario.empresa);
 
     window.location.href = "servicos.html";
+}
+
+function logout() {
+    localStorage.removeItem("logado");
+    localStorage.removeItem("empresa");
+    window.location.href = "login.html";
 }
