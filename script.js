@@ -73,15 +73,13 @@ function registrar() {
     const senha = document.getElementById("senha").value;
 
     if (!tipo || !email || !senha) {
-        alert("Preencha todos os campos");
+        alert("Preencha todos os campos obrigatórios");
         return;
     }
 
-    let usuario = {
-        tipo,
-        email,
-        senha
-    };
+    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
+    let chaveUsuario = "";
+    let usuario = { tipo, email, senha };
 
     if (tipo === "empresa") {
         usuario.empresa = document.getElementById("empresa").value;
@@ -92,6 +90,10 @@ function registrar() {
             alert("Preencha todos os dados da empresa");
             return;
         }
+
+        chaveUsuario = usuario.empresa
+            .toLowerCase()
+            .replace(/\s+/g, "_");
     }
 
     if (tipo === "pessoa") {
@@ -103,49 +105,45 @@ function registrar() {
             alert("Preencha todos os dados pessoais");
             return;
         }
+
+        chaveUsuario = usuario.nome
+            .toLowerCase()
+            .replace(/\s+/g, "_");
     }
 
-    localStorage.setItem(document.getElementById("nome"), JSON.stringify(usuario));
+    if (usuarios[chaveUsuario]) {
+        alert("Já existe um usuário com esse nome");
+        return;
+    }
+
+    usuarios[chaveUsuario] = usuario;
+
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
     alert("Cadastro realizado com sucesso!");
     window.location.href = "login.html";
 }
-
 
 // ===============================
 // LOGIN
 // ===============================
 function login() {
-    const email = document.getElementById("email")?.value;
-    const senha = document.getElementById("senha")?.value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
 
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
 
-    if (!usuario) {
-        alert("Nenhuma empresa cadastrada");
-        return;
+    for (let chave in usuarios) {
+        const user = usuarios[chave];
+
+        if (user.email === email && user.senha === senha) {
+            localStorage.setItem("logado", "true");
+            localStorage.setItem("usuarioLogado", chave);
+            window.location.href = "servicos.html";
+            return;
+        }
     }
 
-    if (email === usuario.email && senha === usuario.senha) {
-        localStorage.setItem("logado", "true");
-        window.location.href = "servicos.html";
-    } else {
-        alert("Email ou senha incorretos");
-    }
-}
-
-function trocarTipo() {
-    const tipo = document.getElementById("tipo").value;
-
-    document.getElementById("empresaCampos").style.display = "none";
-    document.getElementById("pessoaCampos").style.display = "none";
-
-    if (tipo === "empresa") {
-        document.getElementById("empresaCampos").style.display = "block";
-    }
-
-    if (tipo === "pessoa") {
-        document.getElementById("pessoaCampos").style.display = "block";
-    }
+    alert("Email ou senha incorretos");
 }
 
 // ===============================
