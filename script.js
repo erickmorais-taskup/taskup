@@ -216,3 +216,36 @@ Telefone: ${usuario.telefone}
         `https://wa.me/${numeroTaskUp}?text=${encodeURIComponent(msg)}`
     );
 }
+
+// nome da empresa/pessoa na header
+
+async function mostrarUsuarioLogado() {
+    if (!supabase) return;
+
+    const { data: authData } = await supabase.auth.getUser();
+
+    if (!authData.user) return;
+
+    const userId = authData.user.id;
+
+    const { data: usuario, error } = await supabase
+        .from("usuarios")
+        .select("*")
+        .eq("id", userId)
+        .single();
+
+    if (error || !usuario) return;
+
+    let nomeExibicao = "";
+
+    if (usuario.tipo === "empresa") {
+        nomeExibicao = usuario.empresa;
+    } else {
+        nomeExibicao = usuario.nome;
+    }
+
+    const span = document.getElementById("nomeUsuario");
+    if (span) {
+        span.textContent = nomeExibicao;
+    }
+}
