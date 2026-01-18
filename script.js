@@ -150,7 +150,8 @@ function login() {
 // LOGOUT
 // ===============================
 function logout() {
-    localStorage.clear();
+    localStorage.removeItem("logado");
+    localStorage.removeItem("usuarioLogado");
     window.location.href = "login.html";
 }
 
