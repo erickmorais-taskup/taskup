@@ -13,17 +13,39 @@
 </header>
 
 <section class="about">
-    <input id="empresa" placeholder="Nome da empresa"><br><br>
-    <input id="email" type="email" placeholder="Email"><br><br>
-    <input id="senha" type="password" placeholder="Senha"><br><br>
+    <h2>Cadastro</h2>
 
-    <button type="button" onclick="registrar()">Cadastrar</button>
+    <select id="tipo" onchange="trocarTipo()">
+        <option value="">Selecione o tipo de cadastro</option>
+        <option value="empresa">Empresa</option>
+        <option value="pessoa">Pessoa física</option>
+    </select>
 
-    <hr style="margin: 20px 0;">
+    <br><br>
 
-    <a href="login.html">Voltar para login</a>
+    <!-- CAMPOS EMPRESA -->
+    <div id="empresaCampos" style="display:none;">
+        <input id="empresa" placeholder="Nome da empresa">
+        <input id="cnpj" placeholder="CNPJ">
+        <input id="telefoneEmpresa" placeholder="Telefone">
+    </div>
+
+    <!-- CAMPOS PESSOA -->
+    <div id="pessoaCampos" style="display:none;">
+        <input id="nome" placeholder="Nome completo">
+        <input id="cpf" placeholder="CPF">
+        <input id="telefonePessoa" placeholder="Telefone">
+    </div>
+
+    <input id="email" type="email" placeholder="Email">
+    <input id="senha" type="password" placeholder="Senha">
+
+    <button onclick="registrar()">Cadastrar</button>
+
+    <hr>
+
+    <a href="login.html">Já tenho cadastro</a>
 </section>
-
 <script src="script.js"></script>
 </body>
 </html>
