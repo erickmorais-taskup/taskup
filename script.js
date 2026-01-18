@@ -1,3 +1,10 @@
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://SEU-PROJETO.supabase.co",
+  "SUA_ANON_KEY"
+);
+
 async function mostrarServico(servico) {
     const { data, error } = await supabase
         .from("freelancers")
