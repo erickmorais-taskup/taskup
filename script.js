@@ -164,7 +164,7 @@ async function logout() {
 }
 
 async function protegerPagina() {
-    // aguarda o supabase estar pronto
+    // espera supabase estar pronto
     if (!supabase) {
         setTimeout(protegerPagina, 50);
         return;
@@ -173,13 +173,12 @@ async function protegerPagina() {
     const { data, error } = await supabase.auth.getUser();
 
     if (error || !data || !data.user) {
-        // limpa cache visual
         document.documentElement.style.display = "block";
         window.location.replace("login.html");
         return;
     }
 
-    // usuário válido → libera página
+    // usuário autenticado → libera
     document.documentElement.style.display = "block";
 }
 
