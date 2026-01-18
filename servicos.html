@@ -41,7 +41,11 @@
     <p>Belo Horizonte, Minas Gerais, Brasil</p>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js">
+    if (!localStorage.getItem("logado")) {
+    window.location.href = "login.html";
+}
+</script>
 </body>
 </html>
 
