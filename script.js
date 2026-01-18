@@ -118,6 +118,25 @@ async function login() {
     window.location.href = "servicos.html";
 }
 
+function trocarTipo() {
+    const tipo = document.getElementById("tipo").value;
+
+    const empresaCampos = document.getElementById("empresaCampos");
+    const pessoaCampos = document.getElementById("pessoaCampos");
+
+    // Esconde tudo primeiro
+    empresaCampos.style.display = "none";
+    pessoaCampos.style.display = "none";
+
+    if (tipo === "empresa") {
+        empresaCampos.style.display = "block";
+    }
+
+    if (tipo === "pessoa") {
+        pessoaCampos.style.display = "block";
+    }
+}
+
 async function logout() {
     await supabase.auth.signOut();
     window.location.href = "login.html";
