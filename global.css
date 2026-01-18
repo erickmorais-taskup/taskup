@@ -236,6 +236,26 @@ h5{
     background-color: #1ebe5d;
 }
 
+.logout-btn{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: transparent;
+    border: 2px solid var(--azul-principal);
+    color: var(--azul-principal);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-btn:hover{
+    background-color: var(--azul-principal);
+    color: #fff;
+}
+
 /* FOOTER */
 footer{
     text-align: center;
