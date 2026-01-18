@@ -74,7 +74,7 @@ function contatoWhats(nomeFreela, bairroFreela) {
 
     if (usuario.tipo === "empresa") {
         dadosContratante = `
-Empresa: localStorage.getItem("usuarioLogado")
+Empresa: ${nomeContratante}
 CNPJ: ${usuario.cnpj}
 Email: ${usuario.email}
 Telefone: ${usuario.telefone}
