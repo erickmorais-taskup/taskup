@@ -1,7 +1,3 @@
-if (!localStorage.getItem("logado")) {
-    window.location.href = "login.html";
-}
-
 let dados = {};
 
 fetch('freelancers.json')
