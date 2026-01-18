@@ -60,11 +60,11 @@ function mostrarServico(servico) {
 // ===============================
 function contatoWhats(nome, bairro, servico) {
     // Dados da empresa logada
-    const empresaNome = localStorage.getItem("empresa_nome") || "Não informado";
-    const empresaCnpj = localStorage.getItem("empresa_cnpj") || "Não informado";
-    const empresaEmail = localStorage.getItem("empresa_email") || "Não informado";
+    const empresaNome = localStorage.getItem("empresa") || "Não informado";
+    const empresaCnpj = localStorage.getItem("cnpj") || "Não informado";
+    const empresaEmail = localStorage.getItem("email") || "Não informado";
     const WHATSAPP_TASKUP = "+5531992111470"
-    const msg = `Olá! Sou da empresa ${empresaNome} e encontrei um profissional no site TaskUp.
+    const msg = `Olá! Sou da empresa ${nome} e encontrei um profissional no site TaskUp.
 
 📌 Serviço: ${servico}
 👤 Profissional: ${nome}
