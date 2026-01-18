@@ -171,3 +171,26 @@ function trocarTipo() {
         document.getElementById("pessoaCampos").style.display = "block";
     }
 }
+
+function mostrarUsuarioLogado() {
+    const chave = localStorage.getItem("usuarioLogado");
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
+
+    if (!chave || !usuarios[chave]) return;
+
+    const usuario = usuarios[chave];
+    let nome = "";
+
+    if (usuario.tipo === "empresa") {
+        nome = usuario.empresa;
+    } else {
+        nome = usuario.nome;
+    }
+
+    const span = document.getElementById("nomeUsuario");
+    if (span) {
+        span.textContent = nome;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", mostrarUsuarioLogado);
