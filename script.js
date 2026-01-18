@@ -153,3 +153,21 @@ function logout() {
     localStorage.clear();
     window.location.href = "login.html";
 }
+
+// ===============================
+// TROCAR PESSOA FISICA / PESSOA JURIDICA
+// ===============================
+function trocarTipo() {
+    const tipo = document.getElementById("tipo").value;
+
+    document.getElementById("empresaCampos").style.display = "none";
+    document.getElementById("pessoaCampos").style.display = "none";
+
+    if (tipo === "empresa") {
+        document.getElementById("empresaCampos").style.display = "block";
+    }
+
+    if (tipo === "pessoa") {
+        document.getElementById("pessoaCampos").style.display = "block";
+    }
+}
