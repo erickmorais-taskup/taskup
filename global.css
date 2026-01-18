@@ -44,7 +44,7 @@ header p{
     font-size: 16px;
 }
 
-/* BOTÃO PRINCIPAL */
+/* BOTÃO PRINCIPAL (INDEX) */
 .button-serv{
     margin: 40px 20px;
     text-align: center;
@@ -68,18 +68,18 @@ header p{
     transform: translateY(-2px);
 }
 
-/* SOBRE */
+/* ABOUT (INDEX / LOGIN / REGISTRO) */
 .about{
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    margin: 20px;
-    padding: 25px;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    margin: 40px auto;
+    padding: 30px;
+    max-width: 420px;
+    text-align: center;
 }
 
+/* Texto dentro do about */
 .about h2{
     margin-bottom: 15px;
     color: var(--azul-escuro);
@@ -87,7 +87,64 @@ header p{
 
 .about p{
     line-height: 1.6;
+    font-size: 14px;
+    color: #555;
+}
+
+/* INPUTS (LOGIN / REGISTRO) */
+.about input{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.about input:focus{
+    border-color: var(--azul-principal);
+    box-shadow: 0 0 0 2px rgba(0,191,255,0.2);
+}
+
+/* BOTÕES (LOGIN / REGISTRO) */
+.about button{
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 22px;
+    background-color: var(--azul-principal);
+    color: #fff;
     font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.about button:hover{
+    background-color: #009acd;
+}
+
+/* LINKS LOGIN / REGISTRO */
+.about a{
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--azul-principal);
+    text-decoration: none;
+}
+
+.about a:hover{
+    text-decoration: underline;
+}
+
+/* DIVISÓRIA */
+.about hr{
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
 }
 
 /* SERVICES (SERVICOS.HTML) */
@@ -126,15 +183,15 @@ header p{
 .jobs{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin: 15px;
+    gap: 12px;
+    margin: 20px;
 }
 
 .job-card{
-    border-radius: 10px;
+    border-radius: 12px;
     background-color: white;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 h5{
@@ -150,7 +207,7 @@ h5{
 /* BOTÃO WHATSAPP */
 .job-card-button{
     width: 100%;
-    border-radius: 20px;
+    border-radius: 22px;
     padding: 10px;
     border: none;
     background-color: #25D366;
@@ -169,7 +226,7 @@ h5{
 footer{
     text-align: center;
     padding: 25px 15px;
-    margin-top: 40px;
+    margin-top: 50px;
     font-size: 13px;
     color: #555;
 }
