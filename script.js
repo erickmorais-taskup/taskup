@@ -1,236 +1,144 @@
-// ===============================
-// CARREGAR FREELANCERS (JSON)
-// ===============================
-let dados = {};
+async function mostrarServico(servico) {
+    const { data, error } = await supabase
+        .from("freelancers")
+        .select("*")
+        .eq("servico", servico);
 
-fetch('freelancers.json')
-    .then(res => res.json())
-    .then(json => dados = json)
-    .catch(err => console.error("Erro ao carregar freelancers:", err));
+    const container = document.getElementById("jobs");
+    container.innerHTML = "";
 
+    if (!data || data.length === 0) {
+        container.innerHTML = "<p>Nenhum profissional disponível.</p>";
+        return;
+    }
 
-// ===============================
-// PROTEÇÃO DA PÁGINA SERVIÇOS
-// ===============================
-if (window.location.pathname.includes("servicos.html")) {
-    if (localStorage.getItem("logado") !== "true") {
+    data.forEach(p => {
+        container.innerHTML += `
+            <div class="job-card">
+                <h5>${p.nome}</h5>
+                <p>
+                    Experiência: ${p.experiencia}<br>
+                    Valor: ${p.valor}<br>
+                    Bairro: ${p.bairro}
+                </p>
+                <button onclick="contatoWhats('${p.nome}', '${p.bairro}', '${servico}')">
+                    Solicitar via WhatsApp
+                </button>
+            </div>
+        `;
+    });
+}
+
+async function registrar() {
+    const tipo = document.getElementById("tipo").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    const { data, error } = await supabase.auth.signUp({
+        email,
+        password: senha
+    });
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    const userId = data.user.id;
+
+    let payload = {
+        id: userId,
+        tipo,
+        email
+    };
+
+    if (tipo === "empresa") {
+        payload.empresa = document.getElementById("empresa").value;
+        payload.cnpj = document.getElementById("cnpj").value;
+        payload.telefone = document.getElementById("telefoneEmpresa").value;
+    } else {
+        payload.nome = document.getElementById("nome").value;
+        payload.cpf = document.getElementById("cpf").value;
+        payload.telefone = document.getElementById("telefonePessoa").value;
+    }
+
+    const { error: dbError } = await supabase
+        .from("usuarios")
+        .insert([payload]);
+
+    if (dbError) {
+        alert(dbError.message);
+        return;
+    }
+
+    alert("Cadastro realizado!");
+    window.location.href = "login.html";
+}
+
+async function login() {
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password: senha
+    });
+
+    if (error) {
+        alert("Email ou senha inválidos");
+        return;
+    }
+
+    window.location.href = "servicos.html";
+}
+
+async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+}
+
+async function protegerPagina() {
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) {
         window.location.href = "login.html";
     }
 }
 
-
-// ===============================
-// MOSTRAR PROFISSIONAIS
-// ===============================
-function mostrarServico(servico) {
-    const container = document.getElementById("jobs");
-    const section = document.getElementById("profissionais");
-
-    if (!container || !section) return;
-
-    container.innerHTML = "";
-
-    if (!dados[servico] || dados[servico].length === 0) {
-        container.innerHTML = "<p>Nenhum profissional disponível.</p>";
-    } else {
-        dados[servico].forEach(p => {
-            container.innerHTML += `
-                <div class="job-card">
-                    <h5>${p.nome}</h5>
-                    <p>
-                        Experiência: ${p.experiencia}<br>
-                        Valor: ${p.valor}<br>
-                        Bairro: ${p.bairro}
-                    </p>
-                    <button class="job-card-button"
-                        onclick="contatoWhats('${p.nome}', '${p.bairro}', '${servico}')">
-                        WhatsApp
-                    </button>
-                </div>
-            `;
-        });
-    }
-
-    section.classList.remove("hidden");
+if (window.location.pathname.includes("servicos.html")) {
+    protegerPagina();
 }
 
-
-// ===============================
-// WHATSAPP
-// ===============================
-function contatoWhats(nomeFreela, bairroFreela) {
+async function contatoWhats(nomeFreela, bairroFreela, servico) {
     const numeroTaskUp = "5531992111470";
-    const emailLogado = localStorage.getItem("usuarioLogado");
-    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
-    const usuario = usuarios[emailLogado];
-    const nomeContratante = localStorage.getItem("usuarioLogado");
 
-    if (!usuario) {
-        alert("Usuário não identificado");
-        return;
-    }
+    const { data } = await supabase.auth.getUser();
+    const userId = data.user.id;
 
-    let dadosContratante = "";
+    const { data: usuario } = await supabase
+        .from("usuarios")
+        .select("*")
+        .eq("id", userId)
+        .single();
 
-    if (usuario.tipo === "empresa") {
-        dadosContratante = `
-• Empresa: ${nomeContratante}
-• CNPJ: ${usuario.cnpj}
-• Email: ${usuario.email}
-• Telefone: ${usuario.telefone}
-        `;
-    } else {
-        dadosContratante = `
-• Nome: localStorage.getItem("usuarioLogado")
-• CPF: ${usuario.cpf}
-• Email: ${usuario.email}
-• Telefone: ${usuario.telefone}
-        `;
-    }
+    let dados = usuario.tipo === "empresa"
+        ? `Empresa: ${usuario.empresa}
+CNPJ: ${usuario.cnpj}`
+        : `Nome: ${usuario.nome}
+CPF: ${usuario.cpf}`;
 
-    const msg = `Olá! Encontrei um profissional no site TaskUp e gostaria de solicitar um serviço.
+    const msg = `
+Solicitação via TaskUp
 
-📌 Profissional: ${nomeFreela}
-📍 Bairro: ${bairroFreela}
+Serviço: ${servico}
+Profissional: ${nomeFreela}
+Bairro: ${bairroFreela}
 
-*Dados do contratante:*
-${dadosContratante}`;
+${dados}
+Email: ${usuario.email}
+Telefone: ${usuario.telefone}
+    `;
 
     window.open(
-        `https://wa.me/${numeroTaskUp}?text=${encodeURIComponent(msg)}`,
-        "_blank"
+        `https://wa.me/${numeroTaskUp}?text=${encodeURIComponent(msg)}`
     );
 }
-
-
-// ===============================
-// REGISTRO DE EMPRESA
-// ===============================
-function registrar() {
-    const tipo = document.getElementById("tipo").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-
-    if (!tipo || !email || !senha) {
-        alert("Preencha todos os campos obrigatórios");
-        return;
-    }
-
-    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
-    let chaveUsuario = "";
-    let usuario = { tipo, email, senha };
-
-    if (tipo === "empresa") {
-        usuario.empresa = document.getElementById("empresa").value;
-        usuario.cnpj = document.getElementById("cnpj").value;
-        usuario.telefone = document.getElementById("telefoneEmpresa").value;
-
-        if (!usuario.empresa || !usuario.cnpj || !usuario.telefone) {
-            alert("Preencha todos os dados da empresa");
-            return;
-        }
-
-        chaveUsuario = usuario.empresa
-            .toLowerCase()
-            .replace(/\s+/g, "_");
-    }
-
-    if (tipo === "pessoa") {
-        usuario.nome = document.getElementById("nome").value;
-        usuario.cpf = document.getElementById("cpf").value;
-        usuario.telefone = document.getElementById("telefonePessoa").value;
-
-        if (!usuario.nome || !usuario.cpf || !usuario.telefone) {
-            alert("Preencha todos os dados pessoais");
-            return;
-        }
-
-        chaveUsuario = usuario.nome
-            .toLowerCase()
-            .replace(/\s+/g, "_");
-    }
-
-    if (usuarios[chaveUsuario]) {
-        alert("Já existe um usuário com esse nome");
-        return;
-    }
-
-    usuarios[chaveUsuario] = usuario;
-
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    alert("Cadastro realizado com sucesso!");
-    window.location.href = "login.html";
-}
-
-// ===============================
-// LOGIN
-// ===============================
-function login() {
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-
-    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
-
-    for (let chave in usuarios) {
-        const user = usuarios[chave];
-
-        if (user.email === email && user.senha === senha) {
-            localStorage.setItem("logado", "true");
-            localStorage.setItem("usuarioLogado", chave);
-            window.location.href = "servicos.html";
-            return;
-        }
-    }
-
-    alert("Email ou senha incorretos");
-}
-
-// ===============================
-// LOGOUT
-// ===============================
-function logout() {
-    localStorage.removeItem("logado");
-    localStorage.removeItem("usuarioLogado");
-    window.location.href = "login.html";
-}
-
-// ===============================
-// TROCAR PESSOA FISICA / PESSOA JURIDICA
-// ===============================
-function trocarTipo() {
-    const tipo = document.getElementById("tipo").value;
-
-    document.getElementById("empresaCampos").style.display = "none";
-    document.getElementById("pessoaCampos").style.display = "none";
-
-    if (tipo === "empresa") {
-        document.getElementById("empresaCampos").style.display = "block";
-    }
-
-    if (tipo === "pessoa") {
-        document.getElementById("pessoaCampos").style.display = "block";
-    }
-}
-
-function mostrarUsuarioLogado() {
-    const chave = localStorage.getItem("usuarioLogado");
-    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
-
-    if (!chave || !usuarios[chave]) return;
-
-    const usuario = usuarios[chave];
-    let nome = "";
-
-    if (usuario.tipo === "empresa") {
-        nome = usuario.empresa;
-    } else {
-        nome = usuario.nome;
-    }
-
-    const span = document.getElementById("nomeUsuario");
-    if (span) {
-        span.textContent = nome;
-    }
-}
-
-document.addEventListener("DOMContentLoaded", mostrarUsuarioLogado);
