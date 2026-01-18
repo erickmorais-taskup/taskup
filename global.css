@@ -126,6 +126,15 @@ header p{
     background-color: #009acd;
 }
 
+.about select{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
 /* LINKS LOGIN / REGISTRO */
 .about a{
     display: inline-block;
