@@ -58,27 +58,45 @@ function mostrarServico(servico) {
 // ===============================
 // WHATSAPP
 // ===============================
-function contatoWhats(nome, bairro, servico) {
-    // Dados da empresa logada
-    const empresaNome = localStorage.getItem("empresa") || "Não informado";
-    const empresaCnpj = localStorage.getItem("cnpj") || "Não informado";
-    const empresaEmail = localStorage.getItem("email") || "Não informado";
-    const WHATSAPP_TASKUP = "+5531992111470"
-    const msg = `Olá! Sou da empresa ${nome} e encontrei um profissional no site TaskUp.
+function contatoWhats(nomeFreela, bairroFreela) {
+    const numeroTaskUp = "5531992111470";
+    const emailLogado = localStorage.getItem("usuarioLogado");
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
+    const usuario = usuarios[emailLogado];
 
-📌 Serviço: ${servico}
-👤 Profissional: ${nome}
-📍 Bairro: ${bairro}
+    if (!usuario) {
+        alert("Usuário não identificado");
+        return;
+    }
 
-🏢 Dados da empresa:
-• Nome: ${empresaNome}
-• CNPJ: ${empresaCnpj}
-• E-mail: ${empresaEmail}
+    let dadosContratante = "";
 
-Gostaria de mais informações.`;
+    if (usuario.tipo === "empresa") {
+        dadosContratante = `
+Empresa: ${usuario.nome}
+CNPJ: ${usuario.cnpj}
+Email: ${usuario.email}
+Telefone: ${usuario.telefone}
+        `;
+    } else {
+        dadosContratante = `
+Nome: ${usuario.nome}
+CPF: ${usuario.cpf}
+Email: ${usuario.email}
+Telefone: ${usuario.telefone}
+        `;
+    }
+
+    const msg = `Olá! Encontrei um profissional no site TaskUp e gostaria de solicitar um serviço.
+
+📌 Profissional: ${nomeFreela}
+📍 Bairro: ${bairroFreela}
+
+📄 Dados do contratante:
+${dadosContratante}`;
 
     window.open(
-        `https://wa.me/${WHATSAPP_TASKUP}?text=${encodeURIComponent(msg)}`,
+        `https://wa.me/${numeroTaskUp}?text=${encodeURIComponent(msg)}`,
         "_blank"
     );
 }
