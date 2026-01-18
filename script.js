@@ -3,7 +3,11 @@
 // ===============================
 var supabase;
 
-document.addEventListener("DOMContentLoaded", () => {
+// ===============================
+// INICIALIZAÇÃO SEGURA
+// ===============================
+document.addEventListener("DOMContentLoaded", async () => {
+
     if (!window.supabase) {
         console.error("Supabase SDK não carregou");
         return;
@@ -17,10 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     supabase = window.supabaseClient;
+
+    // 🔐 Protege páginas privadas SOMENTE depois do Supabase pronto
+    if (window.location.pathname.includes("servicos.html")) {
+        await protegerPagina();
+    }
 });
 
 async function mostrarServico(servico) {
-    const { data, error } = await supabase
+    const { data } = await supabase
         .from("freelancers")
         .select("*")
         .eq("servico", servico);
@@ -67,11 +76,7 @@ async function registrar() {
 
     const userId = data.user.id;
 
-    let payload = {
-        id: userId,
-        tipo,
-        email
-    };
+    let payload = { id: userId, tipo, email };
 
     if (tipo === "empresa") {
         payload.empresa = document.getElementById("empresa").value;
@@ -119,20 +124,19 @@ async function logout() {
 }
 
 async function protegerPagina() {
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) {
+    const { data, error } = await supabase.auth.getUser();
+
+    if (error || !data.user) {
         window.location.href = "login.html";
     }
-}
-
-if (window.location.pathname.includes("servicos.html")) {
-    protegerPagina();
 }
 
 async function contatoWhats(nomeFreela, bairroFreela, servico) {
     const numeroTaskUp = "5531992111470";
 
     const { data } = await supabase.auth.getUser();
+    if (!data.user) return;
+
     const userId = data.user.id;
 
     const { data: usuario } = await supabase
@@ -142,10 +146,8 @@ async function contatoWhats(nomeFreela, bairroFreela, servico) {
         .single();
 
     let dados = usuario.tipo === "empresa"
-        ? `Empresa: ${usuario.empresa}
-CNPJ: ${usuario.cnpj}`
-        : `Nome: ${usuario.nome}
-CPF: ${usuario.cpf}`;
+        ? `Empresa: ${usuario.empresa}\nCNPJ: ${usuario.cnpj}`
+        : `Nome: ${usuario.nome}\nCPF: ${usuario.cpf}`;
 
     const msg = `
 Solicitação via TaskUp
