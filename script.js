@@ -63,6 +63,7 @@ function contatoWhats(nomeFreela, bairroFreela) {
     const emailLogado = localStorage.getItem("usuarioLogado");
     const usuarios = JSON.parse(localStorage.getItem("usuarios")) || {};
     const usuario = usuarios[emailLogado];
+    const nomeContratante = localStorage.getItem("usuarioLogado");
 
     if (!usuario) {
         alert("Usuário não identificado");
