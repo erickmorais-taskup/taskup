@@ -6,6 +6,13 @@
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <script>
+  // mata o botão voltar
+  history.replaceState(null, "", location.href);
+  window.addEventListener("popstate", () => {
+    window.location.replace("login.html");
+  });
+    </script>
     
     <title>TaskUp • Serviços</title>
     <meta name="description" content="A TaskUp Soluções conecta você a profissionais locais de forma rápida e simples.">
