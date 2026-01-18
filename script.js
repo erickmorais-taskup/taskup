@@ -249,3 +249,7 @@ async function mostrarUsuarioLogado() {
         span.textContent = nomeExibicao;
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    mostrarUsuarioLogado();
+});
