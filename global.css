@@ -276,3 +276,96 @@ footer{
     font-size: 13px;
     color: #555;
 }
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 480px) {
+
+    header{
+        padding: 40px 15px;
+    }
+
+    header h1{
+        font-size: 28px;
+    }
+
+    header p{
+        font-size: 14px;
+    }
+
+    .about{
+        margin: 25px 15px;
+        padding: 20px;
+    }
+
+    .button-serv a{
+        width: 100%;
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    .services{
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .services-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .jobs{
+        grid-template-columns: 1fr;
+        margin: 15px;
+    }
+
+    .logout-btn{
+        top: 15px;
+        right: 15px;
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+
+    header h1{
+        font-size: 32px;
+    }
+
+    .about{
+        max-width: 500px;
+        padding: 25px;
+    }
+
+    .services-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .jobs{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+
+    header h1{
+        font-size: 40px;
+    }
+
+    .services{
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .jobs{
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    footer{
+        font-size: 14px;
+    }
+}
