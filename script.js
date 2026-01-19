@@ -182,6 +182,36 @@ async function protegerPagina() {
     document.documentElement.style.display = "block";
 }
 
+async function carregarUsuarioIndex() {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return; // não logado → não mostra nada
+
+    const { data: usuario, error } = await supabase
+        .from("usuarios")
+        .select("nome, empresa, tipo")
+        .eq("id", user.id)
+        .single();
+
+    if (error || !usuario) return;
+
+    const nomeFinal =
+        usuario.tipo === "empresa"
+            ? usuario.empresa
+            : usuario.nome;
+
+    document.getElementById("nomeUsuario").textContent = nomeFinal;
+    document.getElementById("userBox").style.display = "block";
+}
+
+document.addEventListener("DOMContentLoaded", carregarUsuarioIndex);
+
+async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+}
+
+
 async function contatoWhats(nomeFreela, bairroFreela, servico) {
     const numeroTaskUp = "5531992111470";
 
