@@ -1,25 +1,14 @@
 // ===============================
-// SUPABASE
+// SUPABASE CONFIG
 // ===============================
-const supabaseUrl = "https://bfynkxmdsydbmkdttdok.supabase.co";
-const supabaseKey = "SUA_ANON_KEY_AQUI";
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+const SUPABASE_URL = "https://bfynkxmdsydbmkdttdok.supabase.co";
+const SUPABASE_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg";
 
-// ===============================
-// INIT GLOBAL
-// ===============================
-document.addEventListener("DOMContentLoaded", async () => {
-
-    const path = window.location.pathname;
-
-    if (path.includes("servicos.html")) {
-        await protegerPagina();
-    }
-
-    if (path.includes("index.html") || path.endsWith("/")) {
-        mostrarUsuarioIndex();
-    }
-});
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 // ===============================
 // LOGIN
@@ -54,26 +43,40 @@ async function registrar() {
         return;
     }
 
-    let metadata = { tipo };
-
-    if (tipo === "empresa") {
-        metadata.empresa = document.getElementById("empresa").value;
-        metadata.cnpj = document.getElementById("cnpj").value;
-        metadata.telefone = document.getElementById("telefoneEmpresa").value;
-    } else {
-        metadata.nome = document.getElementById("nome").value;
-        metadata.cpf = document.getElementById("cpf").value;
-        metadata.telefone = document.getElementById("telefonePessoa").value;
-    }
-
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
         email,
-        password: senha,
-        options: { data: metadata }
+        password: senha
     });
 
     if (error) {
         alert(error.message);
+        return;
+    }
+
+    const userId = data.user.id;
+
+    let payload = {
+        id: userId,
+        tipo,
+        email
+    };
+
+    if (tipo === "empresa") {
+        payload.empresa = document.getElementById("empresa").value;
+        payload.cnpj = document.getElementById("cnpj").value;
+        payload.telefone = document.getElementById("telefoneEmpresa").value;
+    } else {
+        payload.nome = document.getElementById("nome").value;
+        payload.cpf = document.getElementById("cpf").value;
+        payload.telefone = document.getElementById("telefonePessoa").value;
+    }
+
+    const { error: dbError } = await supabase
+        .from("usuarios")
+        .insert(payload);
+
+    if (dbError) {
+        alert(dbError.message);
         return;
     }
 
@@ -82,59 +85,7 @@ async function registrar() {
 }
 
 // ===============================
-// LOGOUT
-// ===============================
-async function logout() {
-    await supabase.auth.signOut();
-    window.location.href = "login.html";
-}
-
-// ===============================
-// PROTEGER SERVIÇOS
-// ===============================
-async function protegerPagina() {
-    const { data } = await supabase.auth.getUser();
-
-    if (!data.user) {
-        window.location.replace("login.html");
-        return;
-    }
-
-    const nome =
-        data.user.user_metadata?.empresa ||
-        data.user.user_metadata?.nome ||
-        "Usuário";
-
-    const span = document.getElementById("nomeUsuario");
-    if (span) span.textContent = nome;
-
-    document.documentElement.style.display = "block";
-}
-
-// ===============================
-// INDEX – MOSTRAR USUÁRIO
-// ===============================
-async function mostrarUsuarioIndex() {
-    const { data } = await supabase.auth.getUser();
-
-    if (!data.user) return;
-
-    const nome =
-        data.user.user_metadata?.empresa ||
-        data.user.user_metadata?.nome ||
-        "Usuário";
-
-    const box = document.getElementById("userBox");
-    const span = document.getElementById("nomeUsuario");
-
-    if (box && span) {
-        span.textContent = nome;
-        box.style.display = "block";
-    }
-}
-
-// ===============================
-// REGISTRO – TROCAR TIPO
+// TROCAR TIPO DE CADASTRO
 // ===============================
 function trocarTipo() {
     document.getElementById("empresaCampos").style.display = "none";
@@ -150,3 +101,48 @@ function trocarTipo() {
         document.getElementById("pessoaCampos").style.display = "block";
     }
 }
+
+// ===============================
+// PROTEGER SERVICOS.HTML
+// ===============================
+async function protegerServicos() {
+    const { data } = await supabase.auth.getUser();
+
+    if (!data.user) {
+        window.location.replace("login.html");
+    }
+}
+
+// ===============================
+// MOSTRAR USUÁRIO LOGADO
+// ===============================
+async function mostrarUsuario() {
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) return;
+
+    const { data: usuario } = await supabase
+        .from("usuarios")
+        .select("nome, empresa, tipo")
+        .eq("id", data.user.id)
+        .single();
+
+    if (!usuario) return;
+
+    const nome =
+        usuario.tipo === "empresa"
+            ? usuario.empresa
+            : usuario.nome;
+
+    const span = document.getElementById("nomeUsuario");
+    if (span) span.textContent = nome;
+}
+
+// ===============================
+// AUTOEXECUÇÃO POR PÁGINA
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+    if (location.pathname.includes("servicos.html")) {
+        protegerServicos();
+        mostrarUsuario();
+    }
+});
