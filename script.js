@@ -118,10 +118,15 @@ async function logout() {
 // PROTEÇÃO DE PÁGINA
 // ===============================
 async function protegerPagina() {
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) {
-        window.location.replace("login.html");
-    }
+    return new Promise((resolve) => {
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (!session) {
+                window.location.replace("login.html");
+            } else {
+                resolve();
+            }
+        });
+    });
 }
 
 
