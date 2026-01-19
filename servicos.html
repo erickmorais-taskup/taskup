@@ -56,7 +56,17 @@
 </footer>
     
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js" defer></script>
+<script src="script.js" defer>
+    async function protegerPagina() {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        window.location.replace("login.html");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", protegerPagina);
+</script>
 </body>
 </html>
 
