@@ -183,9 +183,11 @@ async function protegerPagina() {
 }
 
 async function carregarUsuarioIndex() {
+    if (!window.supabaseClient) return;
+
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) return; // não logado → não mostra nada
+    if (!user) return;
 
     const { data: usuario, error } = await supabase
         .from("usuarios")
@@ -203,6 +205,14 @@ async function carregarUsuarioIndex() {
     document.getElementById("nomeUsuario").textContent = nomeFinal;
     document.getElementById("userBox").style.display = "block";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("btnLogout");
+    if (btn) btn.onclick = logout;
+
+    carregarUsuarioIndex();
+});
+
 
 document.addEventListener("DOMContentLoaded", carregarUsuarioIndex);
 
