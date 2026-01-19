@@ -160,29 +160,28 @@ function trocarTipo() {
     }  
 }  
   
-async function logout() {  
-    await supabase.auth.signOut();  
-    window.location.href = "login.html";  
-}  
-  
-async function protegerPagina() {  
-    // espera supabase estar pronto  
-    if (!supabase) {  
-        setTimeout(protegerPagina, 50);  
-        return;  
-    }  
-  
-    const { data, error } = await supabase.auth.getUser();  
-  
-    if (error || !data || !data.user) {  
-        document.documentElement.style.display = "block";  
-        window.location.replace("login.html");  
-        return;  
-    }  
-  
-    // usuário autenticado → libera  
-    document.documentElement.style.display = "block";  
-}  
+async function protegerPagina() {
+    const { data, error } = await supabase.auth.getUser();
+
+    if (!data.user) {
+        window.location.replace("login.html");
+        return;
+    }
+
+    // Usuário logado → libera página
+    document.documentElement.style.display = "block";
+
+    // Mostra nome do usuário
+    const nome =
+        data.user.user_metadata?.empresa ||
+        data.user.user_metadata?.nome ||
+        "Usuário";
+
+    const span = document.getElementById("nomeUsuario");
+    if (span) span.textContent = nome;
+}
+
+document.addEventListener("DOMContentLoaded", protegerPagina);
   
 async function carregarUsuarioIndex() {  
     if (!window.supabaseClient) return;  
