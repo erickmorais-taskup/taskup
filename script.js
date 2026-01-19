@@ -1,12 +1,16 @@
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg
 
 // ===============================
-// SUPABASE CLIENT (ÚNICO)
+// SUPABASE CLIENT (ANTI-DUPLICAÇÃO)
 // ===============================
-const supabase = window.supabase.createClient(
-  "https://bfynkxmdsydbmkdttdok.supabase.co",
-  "COLE_SUA_ANON_KEY_AQUI"
-);
+if (!window.supabaseClient) {
+  window.supabaseClient = window.supabase.createClient(
+    "https://bfynkxmdsydbmkdttdok.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg"
+  );
+}
+
+const supabase = window.supabaseClient;
 
 // ===============================
 // LOGIN
