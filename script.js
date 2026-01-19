@@ -1,10 +1,13 @@
 // ===============================
-// SUPABASE CLIENT (GLOBAL SEGURO)
+// SUPABASE CONFIG
 // ===============================
-var supabase;
+const SUPABASE_URL = "https://bfynkxmdsydbmkdttdok.supabase.co";
+const SUPABASE_KEY = "SUA_ANON_KEY_AQUI";
+
+let supabase;
 
 // ===============================
-// INICIALIZAÇÃO SEGURA
+// INIT GLOBAL
 // ===============================
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -13,21 +16,161 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    if (!window.supabaseClient) {
-        window.supabaseClient = window.supabase.createClient(
-            "https://bfynkxmdsydbmkdttdok.supabase.co",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg"
-        );
-    }
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    supabase = window.supabaseClient;
-
-    // 🔐 Protege páginas privadas SOMENTE depois do Supabase pronto
-    if (window.location.pathname.includes("servicos.html")) {
+    // Protege páginas privadas
+    if (location.pathname.includes("servicos.html")) {
         await protegerPagina();
     }
+
+    // Index → mostra usuário logado
+    await mostrarUsuarioHeader();
+
+    // Botão logout (se existir)
+    const btn = document.getElementById("btnLogout");
+    if (btn) btn.onclick = logout;
 });
 
+
+// ===============================
+// REGISTRO
+// ===============================
+async function registrar() {
+    const tipo = document.getElementById("tipo").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    if (!tipo || !email || !senha) {
+        alert("Preencha todos os campos");
+        return;
+    }
+
+    const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password: senha
+    });
+
+    if (signUpError) {
+        alert(signUpError.message);
+        return;
+    }
+
+    // login automático
+    await supabase.auth.signInWithPassword({ email, password: senha });
+
+    const { data } = await supabase.auth.getUser();
+    const userId = data.user.id;
+
+    let payload = { id: userId, tipo, email };
+
+    if (tipo === "empresa") {
+        payload.empresa = document.getElementById("empresa").value;
+        payload.cnpj = document.getElementById("cnpj").value;
+        payload.telefone = document.getElementById("telefoneEmpresa").value;
+    } else {
+        payload.nome = document.getElementById("nome").value;
+        payload.cpf = document.getElementById("cpf").value;
+        payload.telefone = document.getElementById("telefonePessoa").value;
+    }
+
+    const { error } = await supabase.from("usuarios").insert([payload]);
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    window.location.href = "servicos.html";
+}
+
+
+// ===============================
+// LOGIN
+// ===============================
+async function login() {
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password: senha
+    });
+
+    if (error) {
+        alert("Email ou senha inválidos");
+        return;
+    }
+
+    window.location.href = "servicos.html";
+}
+
+
+// ===============================
+// LOGOUT
+// ===============================
+async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+}
+
+
+// ===============================
+// PROTEÇÃO DE PÁGINA
+// ===============================
+async function protegerPagina() {
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) {
+        window.location.replace("login.html");
+    }
+}
+
+
+// ===============================
+// MOSTRAR USUÁRIO NA INDEX
+// ===============================
+async function mostrarUsuarioHeader() {
+    const box = document.getElementById("userBox");
+    const span = document.getElementById("nomeUsuario");
+
+    if (!box || !span) return;
+
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) return;
+
+    const { data: usuario } = await supabase
+        .from("usuarios")
+        .select("tipo, nome, empresa")
+        .eq("id", data.user.id)
+        .single();
+
+    if (!usuario) return;
+
+    span.textContent =
+        usuario.tipo === "empresa"
+            ? usuario.empresa
+            : usuario.nome;
+
+    box.style.display = "block";
+}
+
+
+// ===============================
+// TROCAR TIPO REGISTRO
+// ===============================
+function trocarTipo() {
+    const tipo = document.getElementById("tipo").value;
+
+    document.getElementById("empresaCampos").style.display =
+        tipo === "empresa" ? "block" : "none";
+
+    document.getElementById("pessoaCampos").style.display =
+        tipo === "pessoa" ? "block" : "none";
+}
+
+
+// ===============================
+// MOSTRAR SERVIÇOS
+// ===============================
 async function mostrarServico(servico) {
     const { data } = await supabase
         .from("freelancers")
@@ -59,18 +202,43 @@ async function mostrarServico(servico) {
     });
 }
 
-async function registrar() {
-    const tipo = document.getElementById("tipo").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
 
-    if (!tipo || !email || !senha) {
-        alert("Preencha todos os campos");
-        return;
-    }
+// ===============================
+// WHATSAPP TASKUP
+// ===============================
+async function contatoWhats(nomeFreela, bairroFreela, servico) {
+    const numeroTaskUp = "5531992111470";
 
-    const { error: signUpError } = await supabase.auth.signUp({
-        email,
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) return;
+
+    const { data: usuario } = await supabase
+        .from("usuarios")
+        .select("*")
+        .eq("id", data.user.id)
+        .single();
+
+    let dados =
+        usuario.tipo === "empresa"
+            ? `Empresa: ${usuario.empresa}\nCNPJ: ${usuario.cnpj}`
+            : `Nome: ${usuario.nome}\nCPF: ${usuario.cpf}`;
+
+    const msg = `
+Solicitação via TaskUp
+
+Serviço: ${servico}
+Profissional: ${nomeFreela}
+Bairro: ${bairroFreela}
+
+${dados}
+Email: ${usuario.email}
+Telefone: ${usuario.telefone}
+    `;
+
+    window.open(
+        `https://wa.me/${numeroTaskUp}?text=${encodeURIComponent(msg)}`
+    );
+}        email,
         password: senha
     });
 
