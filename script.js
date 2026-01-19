@@ -1,16 +1,17 @@
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg
 
 // ===============================
-// SUPABASE CLIENT (SEM CONFLITO)
+// SUPABASE CLIENT (ANTI-DUPLICAÇÃO)
 // ===============================
-if (!window.sb) {
-    window.sb = window.supabase.createClient(
-        "https://bfynkxmdsydbmkdttdok.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg"
-    );
-}
+var supabase = window.supabaseClient;
 
-const sb = window.sb;
+if (!supabase) {
+    window.supabaseClient = window.supabase.createClient(
+        "https://bfynkxmdsydbmkdttdok.supabase.co",
+        "SUA_ANON_KEY_AQUI"
+    );
+    supabase = window.supabaseClient;
+}
 
 // ===============================
 // LOGIN
