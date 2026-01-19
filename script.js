@@ -1,5 +1,3 @@
-o js esta assim  
-  
 // ===============================  
 // SUPABASE CLIENT (GLOBAL SEGURO)  
 // ===============================  
