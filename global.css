@@ -93,6 +93,10 @@ header p{
     background: #222;
 }
 
+.btn-serv{
+    justify-content: center;
+}
+
 .button-serv{
     margin: 40px 20px;
     text-align: center;
