@@ -93,12 +93,8 @@ header p{
     background: #222;
 }
 
-.btn-serv{
-    justify-content: center;
-}
-
 .button-serv{
-    margin: 40px 20px;
+    margin: 40px auto;
     text-align: center;
     display: inline-block;
     background-color: var(--azul-principal);
