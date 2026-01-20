@@ -1,22 +1,23 @@
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg
+let sb = null;
 
-// ===============================
-// SUPABASE CLIENT (ANTI-DUPLICAÇÃO)a
-// ===============================
-var supabase = window.supabaseClient;
+document.addEventListener("DOMContentLoaded", () => {
+    if (!window.supabase) {
+        console.error("Supabase SDK não carregou");
+        return;
+    }
 
-if (!supabase) {
-    window.supabaseClient = window.supabase.createClient(
+    sb = window.supabase.createClient(
         "https://bfynkxmdsydbmkdttdok.supabase.co",
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg"
     );
-    supabase = window.supabaseClient;
-}
+});
 
 // ===============================
 // LOGIN
 // ===============================
 async function login() {
+    if (!sb) return alert("Supabase não inicializado");
+
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
@@ -37,14 +38,11 @@ async function login() {
 // REGISTRO
 // ===============================
 async function registrar() {
+    if (!sb) return alert("Supabase não inicializado");
+
     const tipo = document.getElementById("tipo").value;
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
-
-    if (!tipo || !email || !senha) {
-        alert("Preencha todos os campos");
-        return;
-    }
 
     const { data, error } = await sb.auth.signUp({
         email,
