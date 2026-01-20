@@ -1,4 +1,6 @@
-// ===== SUPABASE BASE (ÚNICA) =====
+// ===============================
+// SUPABASE (ÚNICO E GLOBAL)
+// ===============================
 const SUPABASE_URL = "https://bfynkxmdsydbmkdttdok.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg";
 
@@ -7,107 +9,131 @@ const supabase = window.supabase.createClient(
   SUPABASE_ANON_KEY
 );
 
-console.log("Supabase inicializado:", supabase);
+console.log("Supabase OK:", supabase);
 
+// ===============================
 // LOGIN
+// ===============================
 async function login() {
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
 
-    const supabase = window.supabaseClient;
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password: senha
+  });
 
-    if (!supabase || !supabase.auth) {
-        alert("Supabase não carregado");
-        return;
-    }
+  if (error) {
+    alert(error.message);
+    return;
+  }
 
-    const { error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: senha
-    });
-
-    if (error) {
-        alert(error.message);
-        return;
-    }
-
-    window.location.href = "index.html";
+  window.location.href = "index.html";
 }
 
+// ===============================
 // REGISTRO
+// ===============================
 async function registrar() {
-    if (!sb) return alert("Supabase não inicializado");
+  const tipo = document.getElementById("tipo").value;
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
 
-    const tipo = document.getElementById("tipo").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password: senha
+  });
 
-    const { data, error } = await sb.auth.signUp({
-        email,
-        password: senha
-    });
+  if (error) {
+    alert(error.message);
+    return;
+  }
 
-    if (error) {
-        alert(error.message);
-        return;
-    }
+  const userId = data.user.id;
 
-    const userId = data.user.id;
+  let payload = { id: userId, tipo, email };
 
-    let payload = { id: userId, tipo, email };
+  if (tipo === "empresa") {
+    payload.empresa = document.getElementById("empresa").value;
+    payload.cnpj = document.getElementById("cnpj").value;
+    payload.telefone = document.getElementById("telefoneEmpresa").value;
+  } else {
+    payload.nome = document.getElementById("nome").value;
+    payload.cpf = document.getElementById("cpf").value;
+    payload.telefone = document.getElementById("telefonePessoa").value;
+  }
 
-    if (tipo === "empresa") {
-        payload.empresa = document.getElementById("empresa").value;
-        payload.cnpj = document.getElementById("cnpj").value;
-        payload.telefone = document.getElementById("telefoneEmpresa").value;
-    } else {
-        payload.nome = document.getElementById("nome").value;
-        payload.cpf = document.getElementById("cpf").value;
-        payload.telefone = document.getElementById("telefonePessoa").value;
-    }
+  const { error: dbError } = await supabase
+    .from("usuarios")
+    .insert(payload);
 
-    const { error: dbError } = await sb.from("usuarios").insert([payload]);
+  if (dbError) {
+    alert(dbError.message);
+    return;
+  }
 
-    if (dbError) {
-        alert(dbError.message);
-        return;
-    }
-
-    window.location.href = "login.html";
+  window.location.href = "login.html";
 }
 
+// ===============================
 // TROCAR TIPO
+// ===============================
 function trocarTipo() {
-    document.getElementById("empresaCampos").style.display = "none";
-    document.getElementById("pessoaCampos").style.display = "none";
+  document.getElementById("empresaCampos").style.display = "none";
+  document.getElementById("pessoaCampos").style.display = "none";
 
-    const tipo = document.getElementById("tipo").value;
+  const tipo = document.getElementById("tipo").value;
 
-    if (tipo === "empresa") {
-        document.getElementById("empresaCampos").style.display = "block";
-    }
-    if (tipo === "pessoa") {
-        document.getElementById("pessoaCampos").style.display = "block";
-    }
+  if (tipo === "empresa") {
+    document.getElementById("empresaCampos").style.display = "block";
+  } else if (tipo === "pessoa") {
+    document.getElementById("pessoaCampos").style.display = "block";
+  }
 }
 
-// BLOQUEADOR
+// ===============================
+// BLOQUEIO DE ACESSO
+// ===============================
 async function irParaServicos() {
-    const supabase = window.supabaseClient;
+  const { data: { user } } = await supabase.auth.getUser();
 
-    if (!supabase || !supabase.auth) {
-        alert("Supabase não inicializado corretamente");
-        return;
-    }
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
 
-    const { data } = await supabase.auth.getUser();
+  window.location.href = "servicos.html";
+}
 
-    if (!data.user) {
-        window.location.href = "login.html";
-        return;
-    }
+// ===============================
+// LOGOUT
+// ===============================
+async function logout() {
+  await supabase.auth.signOut();
+  window.location.href = "index.html";
+}
 
-    window.location.href = "servicos.html";
+
+// ===============================
+// BLOQUEIO DE ACESSO
+// ===============================
+async function irParaServicos() {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  window.location.href = "servicos.html";
+}
+
+// ===============================
+// LOGOUT
+// ===============================
+async function logout() {
+  await supabase.auth.signOut();
+  window.location.href = "index.html";
 }
 
 // DADOS MEU PERFIL
