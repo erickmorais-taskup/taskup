@@ -327,6 +327,47 @@ footer{
     color: #555;
 }
 
+/* MEU PERFIL CSS */
+.perfil-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.perfil-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.perfil-card h2 {
+  margin-bottom: 20px;
+}
+
+.perfil-card p {
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+.btn-sair {
+  margin-top: 25px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 30px;
+  background-color: #e53935;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-sair:hover {
+  opacity: 0.9;
+}
+
 /* RESPONSIVIDADE */
 @media (max-width: 480px) {
 

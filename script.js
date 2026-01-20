@@ -113,3 +113,42 @@ async function irParaServicos() {
 
     window.location.href = "servicos.html";
 }
+
+// DADOS MEU PERFIL
+document.addEventListener("DOMContentLoaded", async () => {
+  if (!supabase) return;
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const { data: usuario, error } = await supabase
+    .from("usuarios")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (error || !usuario) {
+    alert("Erro ao carregar perfil");
+    return;
+  }
+
+  document.getElementById("perfilNome").textContent =
+    usuario.nome || usuario.empresa;
+
+  document.getElementById("perfilEmail").textContent = user.email;
+  document.getElementById("perfilTipo").textContent = usuario.tipo;
+
+  if (usuario.tipo === "empresa") {
+    document.getElementById("perfilEmpresaBox").style.display = "block";
+    document.getElementById("perfilEmpresa").textContent = usuario.empresa;
+  }
+});
+
+async function logout() {
+  await supabase.auth.signOut();
+  window.location.href = "index.html";
+}
