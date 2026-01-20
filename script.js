@@ -15,33 +15,36 @@ if (!window.supabase) {
 
 // NOME APARECE NA HEADER
 async function carregarUsuarioHeader() {
-    if (!supabase) return;
+  const userBox = document.getElementById("userBox");
+  const nomeSpan = document.getElementById("nomeUsuario");
 
-    // pega usuário autenticado
-    const { data: { user } } = await supabase.auth.getUser();
+  if (!userBox || !nomeSpan) return;
 
-    // se NÃO estiver logado → não mostra nada
-    if (!user) {
-        document.getElementById("userBox").style.display = "none";
-        return;
-    }
+  const { data: { user } } = await supabase.auth.getUser();
 
-    // busca dados do usuário na tabela usuarios
-    const { data: usuario, error } = await supabase
-        .from("usuarios")
-        .select("nome, empresa, tipo")
-        .eq("id", user.id)
-        .single();
+  console.log("USER AUTH:", user);
 
-    if (error || !usuario) return;
+  if (!user) {
+    userBox.style.display = "none";
+    return;
+  }
 
-    const nomeExibicao =
-        usuario.tipo === "empresa"
-            ? usuario.empresa
-            : usuario.nome;
+  const { data: usuario, error } = await supabase
+    .from("usuarios")
+    .select("nome, empresa, tipo")
+    .eq("id", user.id)
+    .single();
 
-    document.getElementById("nomeUsuario").textContent = nomeExibicao;
-    document.getElementById("userBox").style.display = "block";
+  console.log("DADOS USUARIO:", usuario, error);
+
+  if (error || !usuario) return;
+
+  nomeSpan.textContent =
+    usuario.tipo === "empresa"
+      ? usuario.empresa
+      : usuario.nome;
+
+  userBox.style.display = "block";
 }
 
 // LOGIN
