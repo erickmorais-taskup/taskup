@@ -95,6 +95,25 @@ header p{
 
 /* BOTÃO PRINCIPAL (INDEX) */
 .btn-profissionais {
+    background: #00c2ff;
+    color: #000;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-profissionais:hover {
+    opacity: 0.9;
+}
+
+.button-serv{
+    margin: 40px 20px;
+    text-align: center;
+}
+
+.button-serv a{
     display: inline-block;
     background-color: var(--azul-principal);
     color: #ffffff;
@@ -107,7 +126,7 @@ header p{
     transition: 0.3s;
 }
 
-.btn-profissionais:hover {
+.button-serv a:hover{
     background-color: #009acd;
     transform: translateY(-2px);
 }
