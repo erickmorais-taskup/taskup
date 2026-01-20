@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function protegerPagina() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await sb.auth.getUser();
 
   if (!user) {
     window.location.href = "login.html";
