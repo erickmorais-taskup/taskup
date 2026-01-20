@@ -11,6 +11,14 @@
 <header>
     <h1>Task<span class="up">Up</span></h1>
     <p>Encontre profissionais qualificados para seus serviços do dia a dia!</p>
+    <div class="sidebar" id="sidebar">
+            <h2 class="logo">Task<span>Up</span></h2>
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="servicos.html">Serviços</a>
+               <a href="meuperfil.html">Meu perfil</a>
+            </nav>
+        </div>
 </header>
 
 
@@ -41,5 +49,11 @@
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
+<script>
+        function toggleMenu() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("open");
+        }
+    </script>
 </body>
 </html>
