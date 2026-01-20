@@ -115,16 +115,16 @@ async function logout() {
 
 // DADOS MEU PERFIL
 document.addEventListener("DOMContentLoaded", async () => {
-  if (!supabase) return;
+  if (!sb) return;
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await sb.auth.getUser();
 
   if (!user) {
     window.location.href = "login.html";
     return;
   }
 
-  const { data: usuario, error } = await supabase
+  const { data: usuario, error } = await sb
     .from("usuarios")
     .select("*")
     .eq("id", user.id)
@@ -148,6 +148,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function logout() {
-  await supabase.auth.signOut();
+  await sb.auth.signOut();
   window.location.href = "index.html";
 }
