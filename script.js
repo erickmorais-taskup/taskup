@@ -1,4 +1,3 @@
-// SUPABASE CLIENT (SEGURO)
 const SUPABASE_URL = "https://bfynkxmdsydbmkdttdok.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg";
 
@@ -7,7 +6,7 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
-console.log("Supabase carregado:", supabaseClient);
+console.log("supabaseClient:", supabaseClient);
 
 // LOGIN
 async function login() {
