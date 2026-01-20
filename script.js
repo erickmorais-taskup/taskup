@@ -146,11 +146,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("perfilEmpresa").textContent = usuario.empresa;
   }
 });
-
-async function protegerPagina() {
-  const { data: { user } } = await sb.auth.getUser();
-
-  if (!user) {
-    window.location.href = "login.html";
-  }
-}
