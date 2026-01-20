@@ -151,3 +151,16 @@ async function logout() {
   await sb.auth.signOut();
   window.location.href = "index.html";
 }
+
+document.addEventListener("DOMContentLoaded", async () => {
+  if (!document.body.classList.contains("pagina-privada")) return;
+
+  const { data: { user } } = await sb.auth.getUser();
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  // código do perfil abaixo
+});
