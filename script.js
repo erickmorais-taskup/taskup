@@ -13,40 +13,6 @@ if (!window.supabase) {
     console.log("Supabase client criado:", window.supabaseClient);
 }
 
-// NOME APARECE NA HEADER
-async function mostrarUsuarioLogado() {
-  const userBox = document.getElementById("userBox");
-  const nomeSpan = document.getElementById("nomeUsuario");
-
-  if (!userBox || !nomeSpan) return;
-
-  const { data: { user } } = await supabase.auth.getUser();
-
-  // ❌ não logado → some tudo
-  if (!user) {
-    userBox.style.display = "none";
-    return;
-  }
-
-  const { data: usuario, error } = await supabase
-    .from("usuarios")
-    .select("nome, empresa, tipo")
-    .eq("id", user.id)
-    .single();
-
-  if (error || !usuario) {
-    userBox.style.display = "none";
-    return;
-  }
-
-  nomeSpan.textContent =
-    usuario.tipo === "empresa"
-      ? usuario.empresa
-      : usuario.nome;
-
-  userBox.style.display = "block";
-}
-
 // LOGIN
 async function login() {
     const email = document.getElementById("email").value;
