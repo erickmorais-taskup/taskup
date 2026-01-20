@@ -114,9 +114,7 @@ async function logout() {
 }
 
 // DADOS MEU PERFIL
-document.addEventListener("DOMContentLoaded", async () => {
-  if (!sb) return;
-
+async function carregarPerfil() {
   const { data: { user } } = await sb.auth.getUser();
 
   if (!user) {
@@ -137,7 +135,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("perfilNome").textContent =
     usuario.nome || usuario.empresa;
-
   document.getElementById("perfilEmail").textContent = user.email;
   document.getElementById("perfilTipo").textContent = usuario.tipo;
 
@@ -145,4 +142,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("perfilEmpresaBox").style.display = "block";
     document.getElementById("perfilEmpresa").textContent = usuario.empresa;
   }
-});
+}
