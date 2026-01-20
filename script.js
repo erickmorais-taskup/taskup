@@ -12,9 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 });
 
-// ===============================
 // LOGIN
-// ===============================
 async function login() {
     if (!sb) return alert("Supabase não inicializado");
 
@@ -34,9 +32,7 @@ async function login() {
     window.location.href = "servicos.html";
 }
 
-// ===============================
 // REGISTRO
-// ===============================
 async function registrar() {
     if (!sb) return alert("Supabase não inicializado");
 
@@ -78,9 +74,7 @@ async function registrar() {
     window.location.href = "login.html";
 }
 
-// ===============================
 // TROCAR TIPO
-// ===============================
 function trocarTipo() {
     document.getElementById("empresaCampos").style.display = "none";
     document.getElementById("pessoaCampos").style.display = "none";
