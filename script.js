@@ -113,6 +113,3 @@ async function irParaServicos() {
 
     window.location.href = "servicos.html";
 }
-
-// sei la pq ta aqui
-document.addEventListener("DOMContentLoaded", mostrarUsuarioLogado);
