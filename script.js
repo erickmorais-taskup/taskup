@@ -14,7 +14,7 @@ if (!window.supabase) {
 }
 
 // NOME APARECE NA HEADER
-async function carregarUsuarioHeader() {
+async function mostrarUsuarioLogado() {
   const userBox = document.getElementById("userBox");
   const nomeSpan = document.getElementById("nomeUsuario");
 
@@ -22,8 +22,7 @@ async function carregarUsuarioHeader() {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  console.log("USER AUTH:", user);
-
+  // ❌ não logado → some tudo
   if (!user) {
     userBox.style.display = "none";
     return;
@@ -35,9 +34,10 @@ async function carregarUsuarioHeader() {
     .eq("id", user.id)
     .single();
 
-  console.log("DADOS USUARIO:", usuario, error);
-
-  if (error || !usuario) return;
+  if (error || !usuario) {
+    userBox.style.display = "none";
+    return;
+  }
 
   nomeSpan.textContent =
     usuario.tipo === "empresa"
@@ -147,3 +147,6 @@ async function irParaServicos() {
 
     window.location.href = "servicos.html";
 }
+
+// sei la pq ta aqui
+document.addEventListener("DOMContentLoaded", mostrarUsuarioLogado);
