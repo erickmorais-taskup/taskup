@@ -94,12 +94,7 @@ header p{
 }
 
 /* BOTÃO PRINCIPAL (INDEX) */
-.button-serv{
-    margin: 40px 20px;
-    text-align: center;
-}
-
-.button-serv a{
+.btn-profissionais {
     display: inline-block;
     background-color: var(--azul-principal);
     color: #ffffff;
@@ -112,7 +107,7 @@ header p{
     transition: 0.3s;
 }
 
-.button-serv a:hover{
+.btn-profissionais:hover {
     background-color: #009acd;
     transform: translateY(-2px);
 }

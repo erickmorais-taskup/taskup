@@ -88,3 +88,14 @@ function trocarTipo() {
         document.getElementById("pessoaCampos").style.display = "block";
     }
 }
+
+// BLOQUEADOR
+async function irParaServicos() {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (user) {
+        window.location.href = "servicos.html";
+    } else {
+        window.location.href = "login.html";
+    }
+}
