@@ -96,9 +96,6 @@ header p{
 .button-serv{
     margin: 40px 20px;
     text-align: center;
-}
-
-.button-serv a{
     display: inline-block;
     background-color: var(--azul-principal);
     color: #ffffff;
@@ -111,7 +108,7 @@ header p{
     transition: 0.3s;
 }
 
-.button-serv a:hover{
+.button-serv:hover{
     background-color: #009acd;
     transform: translateY(-2px);
 }
