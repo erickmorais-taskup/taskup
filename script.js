@@ -92,11 +92,19 @@ function trocarTipo() {
 
 // BLOQUEADOR
 async function irParaServicos() {
-    const { data: { user } } = await supabase.auth.getUser();
+    const supabase = window.supabaseClient;
 
-    if (user) {
-        window.location.href = "servicos.html";
-    } else {
-        window.location.href = "login.html";
+    if (!supabase || !supabase.auth) {
+        alert("Supabase não inicializado corretamente");
+        return;
     }
+
+    const { data } = await supabase.auth.getUser();
+
+    if (!data.user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    window.location.href = "servicos.html";
 }
