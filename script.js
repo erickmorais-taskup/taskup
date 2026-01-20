@@ -1,17 +1,13 @@
-console.log("script.js carregado");
-
+// ===== SUPABASE BASE (ÚNICA) =====
 const SUPABASE_URL = "https://bfynkxmdsydbmkdttdok.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg";
 
-if (!window.supabase) {
-    console.error("Supabase SDK NÃO carregou");
-} else {
-    window.supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
-    console.log("Supabase client criado:", window.supabaseClient);
-}
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+console.log("Supabase inicializado:", supabase);
 
 // LOGIN
 async function login() {
