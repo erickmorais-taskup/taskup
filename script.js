@@ -147,7 +147,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-async function logout() {
-  await sb.auth.signOut();
-  window.location.href = "index.html";
+async function protegerPagina() {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    window.location.href = "login.html";
+  }
 }
