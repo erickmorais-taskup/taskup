@@ -1,15 +1,15 @@
 // ===============================
-// SUPABASE (ÚNICO E GLOBAL veriyfy)
+// SUPABASE CLIENT (NOME DIFERENTE)
 // ===============================
 const SUPABASE_URL = "https://bfynkxmdsydbmkdttdok.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmeW5reG1kc3lkYm1rZHR0ZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MTQ3NzEsImV4cCI6MjA4NDI5MDc3MX0.Dvbijztg4bHPcxgjVhpfGcAfwNJrbv2CsuGktG9nqyg";
 
-const supabase = window.supabase.createClient(
+const sb = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_ANON_KEY
 );
 
-console.log("Supabase OK:", supabase);
+console.log("Supabase inicializado:", sb);
 
 // ===============================
 // LOGIN
@@ -18,7 +18,7 @@ async function login() {
   const email = document.getElementById("email").value;
   const senha = document.getElementById("senha").value;
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { error } = await sb.auth.signInWithPassword({
     email,
     password: senha
   });
@@ -39,7 +39,7 @@ async function registrar() {
   const email = document.getElementById("email").value;
   const senha = document.getElementById("senha").value;
 
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await sb.auth.signUp({
     email,
     password: senha
   });
@@ -63,7 +63,7 @@ async function registrar() {
     payload.telefone = document.getElementById("telefonePessoa").value;
   }
 
-  const { error: dbError } = await supabase
+  const { error: dbError } = await sb
     .from("usuarios")
     .insert(payload);
 
@@ -92,10 +92,10 @@ function trocarTipo() {
 }
 
 // ===============================
-// BLOQUEIO DE ACESSO
+// BLOQUEIO DE SERVIÇOS
 // ===============================
 async function irParaServicos() {
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await sb.auth.getUser();
 
   if (!user) {
     window.location.href = "login.html";
@@ -109,30 +109,7 @@ async function irParaServicos() {
 // LOGOUT
 // ===============================
 async function logout() {
-  await supabase.auth.signOut();
-  window.location.href = "index.html";
-}
-
-
-// ===============================
-// BLOQUEIO DE ACESSO
-// ===============================
-async function irParaServicos() {
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  window.location.href = "servicos.html";
-}
-
-// ===============================
-// LOGOUT
-// ===============================
-async function logout() {
-  await supabase.auth.signOut();
+  await sb.auth.signOut();
   window.location.href = "index.html";
 }
 
