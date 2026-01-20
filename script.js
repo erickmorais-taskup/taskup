@@ -15,13 +15,18 @@ if (!window.supabase) {
 
 // LOGIN
 async function login() {
-    if (!sb) return alert("Supabase não inicializado");
-
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
-    const { error } = await sb.auth.signInWithPassword({
-        email,
+    const supabase = window.supabaseClient;
+
+    if (!supabase || !supabase.auth) {
+        alert("Supabase não carregado");
+        return;
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+        email: email,
         password: senha
     });
 
@@ -30,7 +35,7 @@ async function login() {
         return;
     }
 
-    window.location.href = "servicos.html";
+    window.location.href = "index.html";
 }
 
 // REGISTRO
