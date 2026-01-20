@@ -13,6 +13,37 @@ if (!window.supabase) {
     console.log("Supabase client criado:", window.supabaseClient);
 }
 
+// NOME APARECE NA HEADER
+async function carregarUsuarioHeader() {
+    if (!supabase) return;
+
+    // pega usuário autenticado
+    const { data: { user } } = await supabase.auth.getUser();
+
+    // se NÃO estiver logado → não mostra nada
+    if (!user) {
+        document.getElementById("userBox").style.display = "none";
+        return;
+    }
+
+    // busca dados do usuário na tabela usuarios
+    const { data: usuario, error } = await supabase
+        .from("usuarios")
+        .select("nome, empresa, tipo")
+        .eq("id", user.id)
+        .single();
+
+    if (error || !usuario) return;
+
+    const nomeExibicao =
+        usuario.tipo === "empresa"
+            ? usuario.empresa
+            : usuario.nome;
+
+    document.getElementById("nomeUsuario").textContent = nomeExibicao;
+    document.getElementById("userBox").style.display = "block";
+}
+
 // LOGIN
 async function login() {
     const email = document.getElementById("email").value;
