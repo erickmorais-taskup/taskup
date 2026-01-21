@@ -210,14 +210,4 @@ if (usuario.tipo === "empresa") tipoEl.classList.add("badge-empresa");
     } else if (cnpjBox) {
         cnpjBox.style.display = "none";
     }
-
-    // Empresa (nome empresarial)
-    const empresaBox = document.getElementById("perfilEmpresaBox");
-    const empresaEl = document.getElementById("perfilEmpresa");
-    if (usuario.tipo === "empresa" && empresaEl && empresaBox) {
-        empresaBox.style.display = "block";
-        empresaEl.textContent = usuario.empresa || "Não informado";
-    } else if (empresaBox) {
-        empresaBox.style.display = "none";
-    }
 }
