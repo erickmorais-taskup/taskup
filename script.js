@@ -308,7 +308,7 @@ Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviç
 
 👤 Profissional: ${f.nome}
 🛠️ Serviço: ${f.servico}
-📍 Bairro: ${f.bairro || "Não informada"}
+📍 Bairro: ${f.cidade || "Não informada"} - ${f.bairro || "Não informado"}
         `;
 
         const linkWhatsapp = `https://wa.me/${WHATSAPP_AGENCIA}?text=${encodeURIComponent(mensagem)}`;
@@ -318,9 +318,7 @@ Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviç
 
         card.innerHTML = `
             <h3>${f.nome}</h3>
-            <p><strong>Serviço:</strong> ${f.servico}</p>
-            <p>${f.descricao || ""}</p>
-            <p><strong>Bairro:</strong> ${f.bairro || "Não informada"}</p>
+            <p><strong>Cidade:</strong> ${f.cidade || "Não informada"} - <strong>Bairro:</strong> ${f.bairro || "Não informada"}</p>
             <a href="${linkWhatsapp}" target="_blank" class="btn-contato">
                 Entrar em contato
             </a>
