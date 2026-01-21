@@ -263,8 +263,9 @@ h3{
     cursor: pointer;
     transition: 0.3s;
     text-decoration: none;
+    color: var(--texto);
 }
-.jobs:hover{
+.jobs a:hover{
     background-color: #1ebe5d;
 }
 
