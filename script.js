@@ -39,21 +39,22 @@ async function registrar() {
   const email = document.getElementById("email").value;
   const senha = document.getElementById("senha").value;
 
-  // VALIDAÇÃO CPF / CNPJ (MÍNIMO)
+
+// VALIDAÇÃO CPF / CNPJ
   if (tipo === "pessoa") {
-      const cpf = document.getElementById("cpf").value.replace(/\D/g, "");
-      if (cpf.length !== 11) {
-          alert("CPF deve conter exatamente 11 números.");
-          return;
-      }
+    const cpf = document.getElementById("cpf").value.replace(/\D/g, "");
+    if (cpf.length !== 11) {
+      mostrarErro("CPF deve conter exatamente 11 números.");
+      return;
+    }
   }
 
   if (tipo === "empresa") {
-      const cnpj = document.getElementById("cnpj").value.replace(/\D/g, "");
-      if (cnpj.length !== 14) {
-          alert("CNPJ deve conter exatamente 14 números.");
-          return;
-      }
+    const cnpj = document.getElementById("cnpj").value.replace(/\D/g, "");
+    if (cnpj.length !== 14) {
+      mostrarErro("CNPJ deve conter exatamente 14 números.");
+      return;
+    }
   }
 
   const { data, error } = await sb.auth.signUp({
@@ -255,4 +256,11 @@ async function checarLogin() {
         return;
     }
     return user; // retorna o usuário logado
+}
+
+function mostrarErro(msg) {
+  const erroEl = document.getElementById("erroCadastro");
+  if (!erroEl) return;
+  erroEl.textContent = msg;
+  erroEl.style.display = "block";
 }
