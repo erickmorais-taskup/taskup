@@ -346,6 +346,7 @@ async function carregarFreelancers() {
 Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviço.
 
 👤 Profissional: ${f.nome}
+🆔 ID: ${codigo_freelancer}
 🛠️ Serviço: ${f.servico}
 📍 Bairro: ${f.cidade || "Não informada"} - ${f.bairro || "Não informado"}
         `;
@@ -361,7 +362,7 @@ Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviç
             <p><strong>Bairro:</strong> ${f.bairro || "Não informado"}</p>
             <a href="${linkWhatsapp}" target="_blank" class="btn-contato">Entrar em contato</a>
         `;
-
+        
         jobsDiv.appendChild(card);
     });
 }
