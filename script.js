@@ -308,7 +308,7 @@ async function mostrarServico(servico) {
     // ✅ LOGADO → APLICA FILTRO
     servicoSelecionado = servico;
     carregarFreelancers();
-}
+    }
 
 async function carregarFreelancers() {
     const jobsDiv = document.querySelector(".jobs");
@@ -343,12 +343,12 @@ async function carregarFreelancers() {
 
     freelancers.forEach(f => {
         const mensagem = `
-Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviço.
+          Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviço.
 
-👤 Profissional: ${f.nome}
-🆔 ID: ${codigo_freelancer}
-🛠️ Serviço: ${f.servico}
-📍 Bairro: ${f.cidade || "Não informada"} - ${f.bairro || "Não informado"}
+          👤 Profissional: ${f.nome}
+          🆔 ID: ${f.codigo_freelancer}
+          🛠️ Serviço: ${f.servico}
+          📍 Bairro: ${f.cidade || "Não informada"} - ${f.bairro || "Não informado"}
         `;
 
         const linkWhatsapp = `https://wa.me/${WHATSAPP_AGENCIA}?text=${encodeURIComponent(mensagem)}`;
