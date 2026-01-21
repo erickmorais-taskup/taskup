@@ -264,3 +264,49 @@ function mostrarErro(msg) {
   erroEl.textContent = msg;
   erroEl.style.display = "block";
 }
+
+// ===============================
+// LISTAR FREELANCERS (SERVIÇOS)
+// ===============================
+async function carregarFreelancers() {
+  const container = document.getElementById("jobs");
+  if (!container) return;
+
+  const { data, error } = await sb
+    .from("freelancers")
+    .select("*");
+
+  if (error) {
+    container.innerHTML = "<p>Erro ao carregar profissionais.</p>";
+    console.error(error);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>Nenhum profissional disponível no momento.</p>";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(f => {
+    const card = document.createElement("div");
+    card.className = "job-card";
+
+    card.innerHTML = `
+      <h3>${f.nome}</h3>
+      <p><strong>Serviço:</strong> ${f.servico}</p>
+      <p>${f.descricao || ""}</p>
+      <p><strong>Cidade:</strong> ${f.cidade || "Não informado"}</p>
+      <a 
+        href="https://wa.me/55${f.telefone.replace(/\D/g, "")}" 
+        target="_blank" 
+        class="btn-contato"
+      >
+        Entrar em contato
+      </a>
+    `;
+
+    container.appendChild(card);
+  });
+}
