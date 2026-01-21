@@ -211,3 +211,16 @@ if (usuario.tipo === "empresa") tipoEl.classList.add("badge-empresa");
         cnpjBox.style.display = "none";
     }
 }
+
+// ===============================
+// BLOQUEIO DE ACESSO (GENÉRICO)
+// ===============================
+async function checarLogin() {
+    if (!sb) return window.location.href = "login.html";
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+    return user; // retorna o usuário logado
+}

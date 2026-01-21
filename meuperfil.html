@@ -48,6 +48,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            await checarLogin();
+        });
         function toggleMenu() {
             const sidebar = document.getElementById("sidebar");
             sidebar.classList.toggle("open");
