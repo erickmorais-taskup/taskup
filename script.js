@@ -265,48 +265,64 @@ function mostrarErro(msg) {
   erroEl.style.display = "block";
 }
 
-// ===============================
-// LISTAR FREELANCERS (SERVIÇOS)
-// ===============================
+let servicoSelecionado = null;
+
+function mostrarServico(servico) {
+    servicoSelecionado = servico;
+    carregarFreelancers();
+}
+
 async function carregarFreelancers() {
-  const container = document.getElementById("jobs");
-  if (!container) return;
+    const jobsDiv = document.querySelector(".jobs");
+    if (!jobsDiv) return;
 
-  const { data, error } = await sb
-    .from("freelancers")
-    .select("*");
+    jobsDiv.innerHTML = "<p>Carregando...</p>";
 
-  if (error) {
-    container.innerHTML = "<p>Erro ao carregar profissionais.</p>";
-    console.error(error);
-    return;
-  }
+    let query = sb.from("freelancers").select("*");
 
-  if (!data || data.length === 0) {
-    container.innerHTML = "<p>Nenhum profissional disponível no momento.</p>";
-    return;
-  }
+    // 🔥 FILTRO POR CATEGORIA
+    if (servicoSelecionado) {
+        query = query.eq("servico", servicoSelecionado);
+    }
 
-  container.innerHTML = "";
+    const { data: freelancers, error } = await query;
 
-  data.forEach(f => {
-    const card = document.createElement("div");
-    card.className = "job-card";
+    if (error) {
+        jobsDiv.innerHTML = "<p>Erro ao carregar serviços.</p>";
+        return;
+    }
 
-    card.innerHTML = `
-      <h3>${f.nome}</h3>
-      <p><strong>Serviço:</strong> ${f.servico}</p>
-      <p>${f.descricao || ""}</p>
-      <p><strong>Cidade:</strong> ${f.cidade || "Não informado"}</p>
-      <a 
-        href="https://wa.me/55${f.telefone.replace(/\D/g, "")}" 
-        target="_blank" 
-        class="btn-contato"
-      >
-        Entrar em contato
-      </a>
-    `;
+    if (!freelancers || freelancers.length === 0) {
+        jobsDiv.innerHTML = "<p>Nenhum profissional encontrado.</p>";
+        return;
+    }
 
-    container.appendChild(card);
-  });
+    jobsDiv.innerHTML = "";
+
+    freelancers.forEach(f => {
+        const mensagem = `
+Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviço.
+
+👤 Profissional: ${f.nome}
+🛠️ Serviço: ${f.servico}
+📍 Bairro: ${f.bairro || "Não informada"}
+        `;
+
+        const linkWhatsapp = `https://wa.me/${WHATSAPP_AGENCIA}?text=${encodeURIComponent(mensagem)}`;
+
+        const card = document.createElement("div");
+        card.className = "job-card";
+
+        card.innerHTML = `
+            <h3>${f.nome}</h3>
+            <p><strong>Serviço:</strong> ${f.servico}</p>
+            <p>${f.descricao || ""}</p>
+            <p><strong>Bairro:</strong> ${f.bairro || "Não informada"}</p>
+            <a href="${linkWhatsapp}" target="_blank" class="btn-contato">
+                Entrar em contato
+            </a>
+        `;
+
+        jobsDiv.appendChild(card);
+    });
 }
