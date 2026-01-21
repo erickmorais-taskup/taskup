@@ -169,8 +169,21 @@ async function carregarPerfil() {
     if (emailEl) emailEl.textContent = user.email || "Não informado";
 
     // Tipo de conta com primeira letra maiúscula
-    const tipoEl = document.getElementById("perfilTipo");
-    if (tipoEl) tipoEl.textContent = capitalize(usuario.tipo) || "Não informado";
+    // Converte tipo para nome amigável
+    let tipoExibicao = "";
+    if (usuario.tipo === "pessoa") {
+        tipoExibicao = "Pessoa Física";
+    } else if (usuario.tipo === "empresa") {
+        tipoExibicao = "Empresa";
+    }
+
+const tipoEl = document.getElementById("perfilTipo");
+tipoEl.textContent = tipoExibicao;
+
+// opcional: adiciona uma "badge" colorida
+tipoEl.classList.remove("badge-pessoa", "badge-empresa");
+if (usuario.tipo === "pessoa") tipoEl.classList.add("badge-pessoa");
+if (usuario.tipo === "empresa") tipoEl.classList.add("badge-empresa");
 
     // Telefone
     const telefoneEl = document.getElementById("perfilTelefone");
