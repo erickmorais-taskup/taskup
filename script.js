@@ -140,7 +140,21 @@ async function carregarPerfil() {
     usuario.nome || usuario.empresa || "";
 
   document.getElementById("perfilEmail").textContent = user.email;
-  document.getElementById("perfilTipo").textContent = usuario.tipo;
+  // Converte tipo para nome amigável
+  let tipoExibicao = "";
+  if (usuario.tipo === "pessoa") {
+      tipoExibicao = "Pessoa Física";
+  } else if (usuario.tipo === "empresa") {
+      tipoExibicao = "Empresa";
+  }
+
+  const tipoEl = document.getElementById("perfilTipo");
+  tipoEl.textContent = tipoExibicao;
+
+  // opcional: adiciona uma "badge" colorida
+  tipoEl.classList.remove("badge-pessoa", "badge-empresa");
+  if (usuario.tipo === "pessoa") tipoEl.classList.add("badge-pessoa");
+  if (usuario.tipo === "empresa") tipoEl.classList.add("badge-empresa");
 
   // Telefone
   if (document.getElementById("perfilTelefone")) {

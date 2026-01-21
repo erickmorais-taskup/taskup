@@ -416,6 +416,22 @@ footer{
     }
 }
 
+/* Badges para tipo de conta */
+#perfilTipo {
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 12px;
+    color: white;
+}
+
+.badge-pessoa {
+    background-color: #009acd; /* azul */
+}
+
+.badge-empresa {
+    background-color: #28a745; /* verde */
+}
+
 @media (min-width: 481px) and (max-width: 768px) {
 
     header h1{
