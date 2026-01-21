@@ -137,6 +137,21 @@ function formatCNPJ(cnpj) {
                .replace(/(\d{4})(\d{1,2})$/, "$1-$2");
 }
 
+// ===============================
+// LIMITAR E FORMATAR CPF / CNPJ NO CADASTRO
+// ===============================
+function limitarCPF(input) {
+    let valor = input.value.replace(/\D/g, ""); // só números
+    valor = valor.slice(0, 11); // limite CPF
+    input.value = formatCPF(valor);
+}
+
+function limitarCNPJ(input) {
+    let valor = input.value.replace(/\D/g, ""); // só números
+    valor = valor.slice(0, 14); // limite CNPJ
+    input.value = formatCNPJ(valor);
+}
+
 // Carregar dados do perfil
 async function carregarPerfil() {
     if (!sb) return;

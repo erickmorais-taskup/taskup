@@ -27,14 +27,14 @@
     <!-- CAMPOS EMPRESA -->
     <div id="empresaCampos" style="display:none;">
         <input id="empresa" placeholder="Nome da empresa">
-        <input id="cnpj" placeholder="CNPJ">
+        <input id="cnpj" placeholder="CNPJ" oninput="limitarCNPJ(this)">
         <input id="telefoneEmpresa" placeholder="Telefone">
     </div>
 
     <!-- CAMPOS PESSOA -->
     <div id="pessoaCampos" style="display:none;">
         <input id="nome" placeholder="Nome completo">
-        <input id="cpf" placeholder="CPF">
+        <input id="cpf" placeholder="CPF" oninput="limitarCPF(this)">
         <input id="telefonePessoa" placeholder="Telefone">
     </div>
 
