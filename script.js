@@ -72,7 +72,14 @@ async function registrar() {
 
   const userId = data.user.id;
 
-  let payload = { id: userId, tipo, email };
+  const codigoUsuario = gerarCodigoUsuario();
+  
+  let payload = {
+    id: userId,
+    tipo,
+    email,
+    codigo_usuario: codigoUsuario
+  };
 
   if (tipo === "empresa") {
     payload.empresa = document.getElementById("empresa").value;
@@ -94,6 +101,24 @@ async function registrar() {
   }
 
   window.location.href = "login.html";
+}
+
+function gerarCodigoUsuario() {
+    const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numeros = "0123456789";
+
+    function rand(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    return (
+        rand(letras) +
+        rand(numeros) +
+        rand(letras) +
+        rand(letras) +
+        rand(numeros) +
+        rand(numeros)
+    );
 }
 
 // ===============================
