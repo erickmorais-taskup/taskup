@@ -28,23 +28,18 @@
     <main class="perfil-container">
         <div class="perfil-card">
             <h2 id="perfilNome">Carregando...</h2>
-            
             <p><strong>Email:</strong> <span id="perfilEmail"></span></p>
             <p><strong>Tipo de conta:</strong> <span id="perfilTipo"></span></p>
 
-            <p><strong>Telefone:</strong> <span id="perfilTelefone"></span></p>
+            <p id="perfilCPFBox" style="display:none;"><strong>CPF:</strong> <span id="perfilCPF"></span></p>
+            <p id="perfilCNPJBox" style="display:none;"><strong>CNPJ:</strong> <span id="perfilCNPJ"></span></p>
 
-            <p id="perfilCpfBox" style="display:none;">
-                <strong>CPF:</strong> <span id="perfilCpf"></span>
-            </p>
+            <p><strong>Telefone:</strong> <span id="perfilTelefone"></span></p>
 
             <p id="perfilEmpresaBox" style="display:none;">
                 <strong>Empresa:</strong> <span id="perfilEmpresa"></span>
             </p>
 
-            <p id="perfilCnpjBox" style="display:none;">
-                <strong>CNPJ:</strong> <span id="perfilCnpj"></span>
-            </p>    
             <button onclick="logout()" class="btn-sair">Sair da conta</button>
         </div>
     </main>

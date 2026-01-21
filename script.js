@@ -115,9 +115,21 @@ async function logout() {
 
 // DADOS MEU PERFIL
 // DADOS MEU PERFIL
+
+function formatCPF(cpf) {
+    if (!cpf) return "";
+    cpf = cpf.replace(/\D/g, ""); // remove tudo que não é número
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+}
+
+function formatCNPJ(cnpj) {
+    if (!cnpj) return "";
+    cnpj = cnpj.replace(/\D/g, ""); // remove tudo que não é número
+    return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+}
+
 async function carregarPerfil() {
   const { data: { user } } = await sb.auth.getUser();
-
   if (!user) {
     window.location.href = "login.html";
     return;
@@ -131,52 +143,37 @@ async function carregarPerfil() {
 
   if (error || !usuario) {
     alert("Erro ao carregar perfil");
-    console.error(error);
     return;
   }
 
-  // Dados básicos
-  document.getElementById("perfilNome").textContent =
-    usuario.nome || usuario.empresa || "";
-
+  // Nome e email
+  document.getElementById("perfilNome").textContent = usuario.nome || usuario.empresa;
   document.getElementById("perfilEmail").textContent = user.email;
-  // Converte tipo para nome amigável
-  let tipoExibicao = "";
-  if (usuario.tipo === "pessoa") {
-      tipoExibicao = "Pessoa Física";
-  } else if (usuario.tipo === "empresa") {
-      tipoExibicao = "Empresa";
-  }
 
-  const tipoEl = document.getElementById("perfilTipo");
-  tipoEl.textContent = tipoExibicao;
-
-  // opcional: adiciona uma "badge" colorida
-  tipoEl.classList.remove("badge-pessoa", "badge-empresa");
-  if (usuario.tipo === "pessoa") tipoEl.classList.add("badge-pessoa");
-  if (usuario.tipo === "empresa") tipoEl.classList.add("badge-empresa");
+  // Tipo com primeira letra maiúscula
+  document.getElementById("perfilTipo").textContent =
+    usuario.tipo.charAt(0).toUpperCase() + usuario.tipo.slice(1);
 
   // Telefone
-  if (document.getElementById("perfilTelefone")) {
-    document.getElementById("perfilTelefone").textContent =
-      usuario.telefone || "Não informado";
-  }
+  document.getElementById("perfilTelefone").textContent = usuario.telefone || "-";
 
-  // Pessoa
-  if (usuario.tipo === "pessoa") {
-    document.getElementById("perfilCpfBox").style.display = "block";
-    document.getElementById("perfilCpf").textContent =
-      usuario.cpf || "Não informado";
-  }
-
-  // Empresa
   if (usuario.tipo === "empresa") {
     document.getElementById("perfilEmpresaBox").style.display = "block";
-    document.getElementById("perfilEmpresa").textContent =
-      usuario.empresa || "";
+    document.getElementById("perfilEmpresa").textContent = usuario.empresa;
 
-    document.getElementById("perfilCnpjBox").style.display = "block";
-    document.getElementById("perfilCnpj").textContent =
-      usuario.cnpj || "Não informado";
+    // Mostrar CNPJ
+    document.getElementById("perfilCNPJBox").style.display = "block";
+    document.getElementById("perfilCNPJ").textContent = formatCNPJ(usuario.cnpj);
+
+    // Esconde CPF
+    document.getElementById("perfilCPFBox").style.display = "none";
+  } else {
+    // Mostrar CPF
+    document.getElementById("perfilCPFBox").style.display = "block";
+    document.getElementById("perfilCPF").textContent = formatCPF(usuario.cpf);
+
+    // Esconde CNPJ e empresa
+    document.getElementById("perfilCNPJBox").style.display = "none";
+    document.getElementById("perfilEmpresaBox").style.display = "none";
   }
 }
