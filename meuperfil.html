@@ -50,13 +50,15 @@
         <p>Belo Horizonte, Minas Gerais, Brasil</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
     <script>
         function toggleMenu() {
             const sidebar = document.getElementById("sidebar");
             sidebar.classList.toggle("open");
         }
-        carregarPerfil();
+        document.addEventListener("DOMContentLoaded", () => {
+            carregarPerfil();
+        });
     </script>
-    <script src="script.js"></script>
 </body>
 </html>
