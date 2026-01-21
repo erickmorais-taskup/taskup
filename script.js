@@ -123,10 +123,10 @@ async function carregarPerfil() {
   }
 
   const { data: usuario, error } = await sb
-    .from("usuarios")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+  .from("usuarios")
+  .select("*")
+  .eq("id", user.id)
+  .maybeSingle();
 
   if (error || !usuario) {
     alert("Erro ao carregar perfil");
