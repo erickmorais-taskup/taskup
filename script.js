@@ -116,64 +116,88 @@ async function logout() {
 // DADOS MEU PERFIL
 // DADOS MEU PERFIL
 
+// Função para colocar a primeira letra maiúscula
+function capitalize(str) {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// Funções para formatar CPF e CNPJ
 function formatCPF(cpf) {
     if (!cpf) return "";
-    cpf = cpf.replace(/\D/g, ""); // remove tudo que não é número
-    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    return cpf.replace(/\D/g, '') // remove tudo que não é número
+              .replace(/(\d{3})(\d)/, "$1.$2")
+              .replace(/(\d{3})(\d)/, "$1.$2")
+              .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 }
 
 function formatCNPJ(cnpj) {
     if (!cnpj) return "";
-    cnpj = cnpj.replace(/\D/g, ""); // remove tudo que não é número
-    return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+    return cnpj.replace(/\D/g, '') // remove tudo que não é número
+               .replace(/(\d{2})(\d)/, "$1.$2")
+               .replace(/(\d{3})(\d)/, "$1.$2")
+               .replace(/(\d{3})(\d)/, "$1/$2")
+               .replace(/(\d{4})(\d{1,2})$/, "$1-$2");
 }
 
+// Carregar dados do perfil
 async function carregarPerfil() {
-  const { data: { user } } = await sb.auth.getUser();
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
+    if (!sb) return;
 
-  const { data: usuario, error } = await sb
-    .from("usuarios")
-    .select("*")
-    .eq("id", user.id)
-    .maybeSingle();
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
 
-  if (error || !usuario) {
-    alert("Erro ao carregar perfil");
-    return;
-  }
+    const { data: usuario, error } = await sb
+        .from("usuarios")
+        .select("*")
+        .eq("id", user.id)
+        .maybeSingle();
 
-  // Nome e email
-  document.getElementById("perfilNome").textContent = usuario.nome || usuario.empresa;
-  document.getElementById("perfilEmail").textContent = user.email;
+    if (error || !usuario) {
+        alert("Erro ao carregar perfil");
+        return;
+    }
 
-  // Tipo com primeira letra maiúscula
-  document.getElementById("perfilTipo").textContent =
-    usuario.tipo.charAt(0).toUpperCase() + usuario.tipo.slice(1);
+    // Nome ou empresa
+    const nomeEl = document.getElementById("perfilNome");
+    if (nomeEl) nomeEl.textContent = usuario.nome || usuario.empresa;
 
-  // Telefone
-  document.getElementById("perfilTelefone").textContent = usuario.telefone || "-";
+    // Email
+    const emailEl = document.getElementById("perfilEmail");
+    if (emailEl) emailEl.textContent = user.email;
 
-  if (usuario.tipo === "empresa") {
-    document.getElementById("perfilEmpresaBox").style.display = "block";
-    document.getElementById("perfilEmpresa").textContent = usuario.empresa;
+    // Tipo de conta com primeira letra maiúscula
+    const tipoEl = document.getElementById("perfilTipo");
+    if (tipoEl) tipoEl.textContent = capitalize(usuario.tipo);
 
-    // Mostrar CNPJ
-    document.getElementById("perfilCNPJBox").style.display = "block";
-    document.getElementById("perfilCNPJ").textContent = formatCNPJ(usuario.cnpj);
+    // Telefone
+    const telefoneEl = document.getElementById("perfilTelefone");
+    if (telefoneEl) telefoneEl.textContent = usuario.telefone || "";
 
-    // Esconde CPF
-    document.getElementById("perfilCPFBox").style.display = "none";
-  } else {
-    // Mostrar CPF
-    document.getElementById("perfilCPFBox").style.display = "block";
-    document.getElementById("perfilCPF").textContent = formatCPF(usuario.cpf);
+    // CPF (para pessoa)
+    const cpfBox = document.getElementById("perfilCPFBox");
+    const cpfEl = document.getElementById("perfilCPF");
+    if (usuario.tipo === "pessoa" && cpfEl && cpfBox) {
+        cpfBox.style.display = "block";
+        cpfEl.textContent = formatCPF(usuario.cpf);
+    }
 
-    // Esconde CNPJ e empresa
-    document.getElementById("perfilCNPJBox").style.display = "none";
-    document.getElementById("perfilEmpresaBox").style.display = "none";
-  }
+    // CNPJ (para empresa)
+    const cnpjBox = document.getElementById("perfilCNPJBox");
+    const cnpjEl = document.getElementById("perfilCNPJ");
+    if (usuario.tipo === "empresa" && cnpjEl && cnpjBox) {
+        cnpjBox.style.display = "block";
+        cnpjEl.textContent = formatCNPJ(usuario.cnpj);
+    }
+
+    // Empresa (nome empresarial, se houver)
+    const empresaBox = document.getElementById("perfilEmpresaBox");
+    const empresaEl = document.getElementById("perfilEmpresa");
+    if (usuario.tipo === "empresa" && empresaEl && empresaBox) {
+        empresaBox.style.display = "block";
+        empresaEl.textContent = usuario.empresa;
+    }
 }
