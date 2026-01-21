@@ -310,6 +310,25 @@ async function mostrarServico(servico) {
     carregarFreelancers();
     }
 
+let empresaLogada = null;
+
+async function carregarEmpresaLogada() {
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) return;
+
+    const { data, error } = await sb
+        .from("usuarios")
+        .select("nome, empresa, telefone, email")
+        .eq("id", user.id)
+        .single();
+
+    if (!error) {
+        empresaLogada = data;
+    }
+}
+
+await carregarEmpresaLogada();
+
 async function carregarFreelancers() {
     const jobsDiv = document.querySelector(".jobs");
     if (!jobsDiv) return;
@@ -343,13 +362,28 @@ async function carregarFreelancers() {
 
     freelancers.forEach(f => {
         const mensagem = `
-          Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviço.
+Olá, TaskUp! 👋
 
-          👤 Profissional: ${f.nome}
-          🆔 ID: ${f.codigo_freelancer}
-          🛠️ Serviço: ${f.servico}
-          📍 Bairro: ${f.cidade || "Não informada"} - ${f.bairro || "Não informado"}
-        `;
+Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviço.
+
+  🏢 *EMPRESA SOLICITANTE*
+    Nome: ${empresaLogada?.empresa || empresaLogada?.nome}
+    Email: ${empresaLogada?.email}
+    Telefone: ${empresaLogada?.telefone}
+
+  👤 *FREELANCER*
+    Nome: ${f.nome}
+    Serviço: ${f.servico}
+    ID: ${f.codigo_freelancer}
+    Bairro: ${f.cidade || "Não informada"} - ${f.bairro || "Não informado"}
+
+Os horários são:
+*DIA:*
+*INÍCIO:*
+*FIM:*
+
+Aguardo retorno!
+`;
 
         const linkWhatsapp = `https://wa.me/${WHATSAPP_AGENCIA}?text=${encodeURIComponent(mensagem)}`;
 
