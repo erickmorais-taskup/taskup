@@ -251,6 +251,22 @@ h3{
     margin: 20px;
 }
 
+.jobs a{
+    width: 100%;
+    border-radius: 22px;
+    padding: 10px;
+    border: none;
+    background-color: #25D366;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.jobs:hover{
+    background-color: #1ebe5d;
+}
+
 .job-card{
     border-radius: 12px;
     background-color: white;
@@ -278,24 +294,6 @@ h5{
 .usuario-logado span{
     font-weight: bold;
     color: var(--azul-principal);
-}
-
-/* BOTÃO WHATSAPP */
-.job-card-button{
-    width: 100%;
-    border-radius: 22px;
-    padding: 10px;
-    border: none;
-    background-color: #25D366;
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.job-card-button:hover{
-    background-color: #1ebe5d;
 }
 
 .logout-btn{

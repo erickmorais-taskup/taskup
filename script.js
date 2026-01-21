@@ -318,10 +318,9 @@ Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviç
 
         card.innerHTML = `
             <h3>${f.nome}</h3>
-            <p><strong>Cidade:</strong> ${f.cidade || "Não informada"} - <strong>Bairro:</strong> ${f.bairro || "Não informada"}</p>
-            <a href="${linkWhatsapp}" target="_blank" class="btn-contato">
-                Entrar em contato
-            </a>
+            <p><strong>Cidade:</strong> ${f.cidade || "Não informada"}</p>
+            <p><strong>Bairro:</strong> ${f.bairro || "Não informado"}</p>
+            <a href="${linkWhatsapp}" target="_blank" class="btn-contato">Entrar em contato</a>
         `;
 
         jobsDiv.appendChild(card);
