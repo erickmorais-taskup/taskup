@@ -365,7 +365,7 @@ Olá, TaskUp! 👋
 
 Olá, encontrei um profissional no site TaskUp e gostaria de solicitar o serviço.
 
-  🏢 *EMPRESA SOLICITANTE*
+  🏢 *SOLICITANTE*
     Nome: ${empresaLogada?.empresa || empresaLogada?.nome}
     Email: ${empresaLogada?.email}
     Telefone: ${empresaLogada?.telefone}
