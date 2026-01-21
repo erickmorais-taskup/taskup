@@ -327,9 +327,8 @@ async function carregarEmpresaLogada() {
     }
 }
 
-await carregarEmpresaLogada();
-
 async function carregarFreelancers() {
+    await carregarEmpresaLogada();
     const jobsDiv = document.querySelector(".jobs");
     if (!jobsDiv) return;
 
