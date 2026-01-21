@@ -279,14 +279,18 @@ async function carregarFreelancers() {
     const jobsDiv = document.querySelector(".jobs");
     if (!jobsDiv) return;
 
+    // 🚫 SE NÃO CLICOU EM NENHUM FILTRO
+    if (!servicoSelecionado) {
+        jobsDiv.innerHTML = "<p>Selecione um serviço para ver os profissionais.</p>";
+        return;
+    }
+
     jobsDiv.innerHTML = "<p>Carregando...</p>";
 
-    let query = sb.from("freelancers").select("*");
-
-    // 🔥 FILTRO POR CATEGORIA
-    if (servicoSelecionado) {
-        query = query.eq("servico", servicoSelecionado);
-    }
+    let query = sb
+        .from("freelancers")
+        .select("*")
+        .eq("servico", servicoSelecionado);
 
     const { data: freelancers, error } = await query;
 
