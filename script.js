@@ -270,7 +270,17 @@ function mostrarErro(msg) {
 
 let servicoSelecionado = null;
 
-function mostrarServico(servico) {
+async function mostrarServico(servico) {
+    const { data: { user } } = await sb.auth.getUser();
+
+    // 🚫 BLOQUEIA SE NÃO ESTIVER LOGADO
+    if (!user) {
+        alert("Faça login para ver os profissionais.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    // ✅ LOGADO → APLICA FILTRO
     servicoSelecionado = servico;
     carregarFreelancers();
 }
