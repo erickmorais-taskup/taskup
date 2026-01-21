@@ -114,6 +114,7 @@ async function logout() {
 }
 
 // DADOS MEU PERFIL
+// DADOS MEU PERFIL
 async function carregarPerfil() {
   const { data: { user } } = await sb.auth.getUser();
 
@@ -123,23 +124,45 @@ async function carregarPerfil() {
   }
 
   const { data: usuario, error } = await sb
-  .from("usuarios")
-  .select("*")
-  .eq("id", user.id)
-  .maybeSingle();
+    .from("usuarios")
+    .select("*")
+    .eq("id", user.id)
+    .maybeSingle();
 
   if (error || !usuario) {
     alert("Erro ao carregar perfil");
+    console.error(error);
     return;
   }
 
+  // Dados básicos
   document.getElementById("perfilNome").textContent =
-    usuario.nome || usuario.empresa;
+    usuario.nome || usuario.empresa || "";
+
   document.getElementById("perfilEmail").textContent = user.email;
   document.getElementById("perfilTipo").textContent = usuario.tipo;
 
+  // Telefone
+  if (document.getElementById("perfilTelefone")) {
+    document.getElementById("perfilTelefone").textContent =
+      usuario.telefone || "Não informado";
+  }
+
+  // Pessoa
+  if (usuario.tipo === "pessoa") {
+    document.getElementById("perfilCpfBox").style.display = "block";
+    document.getElementById("perfilCpf").textContent =
+      usuario.cpf || "Não informado";
+  }
+
+  // Empresa
   if (usuario.tipo === "empresa") {
     document.getElementById("perfilEmpresaBox").style.display = "block";
-    document.getElementById("perfilEmpresa").textContent = usuario.empresa;
+    document.getElementById("perfilEmpresa").textContent =
+      usuario.empresa || "";
+
+    document.getElementById("perfilCnpjBox").style.display = "block";
+    document.getElementById("perfilCnpj").textContent =
+      usuario.cnpj || "Não informado";
   }
 }
