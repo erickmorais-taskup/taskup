@@ -177,13 +177,24 @@ async function carregarPerfil() {
         tipoExibicao = "Empresa";
     }
 
-const tipoEl = document.getElementById("perfilTipo");
-tipoEl.textContent = tipoExibicao;
+    // H2: mostra nome da pessoa e, se existir, o nome da empresa
+    const nomeEl = document.getElementById("perfilNome");
+    if (nomeEl) {
+        let nomeCompleto = usuario.nome || "";
+        if (usuario.empresa) {
+            nomeCompleto += ` - ${usuario.empresa}`;
+        }
+        nomeEl.textContent = nomeCompleto;
+    }
 
-// opcional: adiciona uma "badge" colorida
-tipoEl.classList.remove("badge-pessoa", "badge-empresa");
-if (usuario.tipo === "pessoa") tipoEl.classList.add("badge-pessoa");
-if (usuario.tipo === "empresa") tipoEl.classList.add("badge-empresa");
+
+    const tipoEl = document.getElementById("perfilTipo");
+    tipoEl.textContent = tipoExibicao;
+
+    // opcional: adiciona uma "badge" colorida
+    tipoEl.classList.remove("badge-pessoa", "badge-empresa");
+    if (usuario.tipo === "pessoa") tipoEl.classList.add("badge-pessoa");
+    if (usuario.tipo === "empresa") tipoEl.classList.add("badge-empresa");
 
     // Telefone
     const telefoneEl = document.getElementById("perfilTelefone");
