@@ -113,7 +113,8 @@ async function logout() {
   window.location.href = "index.html";
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+// DADOS MEU PERFIL
+async function carregarPerfil() {
   const { data: { user } } = await sb.auth.getUser();
 
   if (!user) {
@@ -123,16 +124,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const { data: usuario, error } = await sb
     .from("usuarios")
-    .select("nome, empresa, tipo")
+    .select("*")
     .eq("id", user.id)
     .single();
 
-  if (error) {
-    console.error(error);
+  if (error || !usuario) {
     alert("Erro ao carregar perfil");
     return;
   }
 
   document.getElementById("perfilNome").textContent =
     usuario.nome || usuario.empresa;
-});
+  document.getElementById("perfilEmail").textContent = user.email;
+  document.getElementById("perfilTipo").textContent = usuario.tipo;
+
+  if (usuario.tipo === "empresa") {
+    document.getElementById("perfilEmpresaBox").style.display = "block";
+    document.getElementById("perfilEmpresa").textContent = usuario.empresa;
+  }
+}
