@@ -11,6 +11,9 @@ const sb = window.supabase.createClient(
 
 console.log("Supabase inicializado:", sb);
 
+//NOSSO WPP
+const WHATSAPP_AGENCIA = "5531992111470";
+
 // ===============================
 // LOGIN
 // ===============================
